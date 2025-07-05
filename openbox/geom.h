@@ -23,10 +23,10 @@
 #include <glib.h>
 
 typedef struct _GravityCoord {
-    gint pos;
-    gint denom;
-    gboolean center;
-    gboolean opposite;
+    gshort pos;
+    gshort denom;
+    gchar center;
+    gchar opposite;
 } GravityCoord;
 
 typedef struct _GravityPoint {
