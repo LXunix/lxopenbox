@@ -34,14 +34,14 @@ typedef enum {
 } ObtDDParseValueType;
 
 typedef struct _ObtDDParseValue {
-    ObtDDParseValueType type;
+    ObtDDParseValueType type : 4;
     union _ObtDDParseValueValue {
+        gchar boolean;
         gchar *string;
         struct _ObtDDParseValueStrings {
             gchar **a;
             gulong n;
         } strings;
-        gboolean boolean;
         gfloat numeric;
         guint enumerable;
         guint environments; /*!< A mask of flags from ObtLinkEnvMask */
