@@ -56,14 +56,17 @@ typedef gpointer (*ObActionsIDataSetupFunc)(xmlNodePtr node,
                                             ObActionsIPostFunc *post);
 
 struct _ObActionsData {
-    ObUserAction uact;
-    guint state;
-    gint x;
-    gint y;
-    gint button;
+    ObUserAction uact : 4; // 4 bit max value 0x0000
+
+    ObFrameContext context : 5; // 5 bit max value 0x00000
+
+    gshort button;
 
     struct _ObClient *client;
-    ObFrameContext context;
+
+    guint state;
+    gshort x;
+    gshort y;
 };
 
 void actions_startup(gboolean reconfigure);
