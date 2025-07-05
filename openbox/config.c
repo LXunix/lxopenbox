@@ -167,7 +167,7 @@ void config_app_settings_copy_non_defaults(const ObAppSettings *src,
     dst->height_denom = src->height_denom;
 }
 
-void config_parse_relative_number(gchar *s, gint *num, gint *denom)
+void config_parse_relative_number(gchar *s, gshort *num, gshort *denom)
 {
     *num = strtol(s, &s, 10);
 
@@ -452,9 +452,9 @@ static void parse_key(xmlNodePtr node, GList *keylist)
 {
     gchar *keystring, **keys, **key;
     xmlNodePtr n;
-    gboolean is_chroot = FALSE;
-    gboolean grab = TRUE;
-    gboolean repeat = TRUE;
+    gchar is_chroot = FALSE;
+    gchar grab = TRUE;
+    gchar repeat = TRUE;
 
     if (!obt_xml_attr_string(node, "key", &keystring))
         return;

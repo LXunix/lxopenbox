@@ -41,31 +41,32 @@ struct _ObAppSettings
     GPatternSpec *group_class;
     GPatternSpec *group_name;
     GPatternSpec *title;
-    ObClientType  type;
+    ObClientType  type : 4;
 
+    ObPlaceMonitor monitor_type : 3;
+
+    gchar pos_given;
     GravityPoint position;
-    gboolean pos_given;
-    gboolean pos_force;
+    gchar pos_force;
 
-    gint width_num;
-    gint width_denom;
-    gint height_num;
-    gint height_denom;
+    gshort width_num;
+    gshort width_denom;
+    gshort height_num;
+    gshort height_denom;
 
-    guint desktop;
-    gint shade;
-    gint decor;
-    gint focus;
-    ObPlaceMonitor monitor_type;
-    gint monitor;
-    gint iconic;
-    gint skip_pager;
-    gint skip_taskbar;
-    gint max_horz;
-    gint max_vert;
-    gint fullscreen;
+    gushort desktop;
+    gshort shade;
+    gshort decor;
+    gshort focus;
+    gshort monitor;
+    gshort iconic;
+    gshort skip_pager;
+    gshort skip_taskbar;
+    gshort max_horz;
+    gshort max_vert;
+    gshort fullscreen;
 
-    gint layer;
+    gshort layer;
 };
 
 /*! Should new windows be focused */
@@ -237,6 +238,6 @@ void config_app_settings_copy_non_defaults(const ObAppSettings *src,
   and percentages */
 void config_parse_gravity_coord(xmlNodePtr node, GravityCoord *c);
 /*! Parses a rational number or percentage into num and denom */
-void config_parse_relative_number(gchar *s, gint *num, gint *denom);
+void config_parse_relative_number(gchar *s, gshort *num, gshort *denom);
 
 #endif

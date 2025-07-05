@@ -1202,7 +1202,7 @@ static void layout_title(ObFrame *self)
        and -1 the second time through when working to the right */
     for (i = 1; i >= -1; i-=2) {
         gint x;
-        ObFrameContext firstcon; // 5 bit max value 0x00000
+        ObFrameContext firstcon;
 
         if (i > 0) {
             x = left;
