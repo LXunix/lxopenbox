@@ -28,14 +28,14 @@ typedef struct _ObSessionState ObSessionState;
 
 struct _ObSessionState {
     gchar *id, *command, *name, *class, *role;
-    ObClientType type;
-    guint desktop;
-    gint x, y, w, h;
-    gboolean shaded, iconic, skip_pager, skip_taskbar, fullscreen;
-    gboolean above, below, max_horz, max_vert, undecorated;
-    gboolean focused;
+    ObClientType type : 4;
+    gushort desktop;
+    gshort x, y, w, h;
+    gchar shaded, iconic, skip_pager, skip_taskbar, fullscreen;
+    gchar above, below, max_horz, max_vert, undecorated;
+    gchar focused;
 
-    gboolean matched;
+    gchar matched;
 };
 
 /*! The desktop being viewed when the session was saved. A valud of -1 means
