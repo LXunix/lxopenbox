@@ -35,7 +35,7 @@ Time sn_app_started(const gchar *id, const gchar *wmclass, const gchar *name);
 
 /*! Get the desktop requested via the startup-notiication protocol if one
   was requested */
-gboolean sn_get_desktop(gchar *id, guint *desktop);
+gboolean sn_get_desktop(gchar *id, gushort *desktop);
 
 /* Get the environment to run the program in, with startup notification */
 void sn_setup_spawn_environment(const gchar *program, const gchar *name,

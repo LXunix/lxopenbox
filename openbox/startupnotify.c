@@ -35,7 +35,7 @@ Time sn_app_started(const gchar *id, const gchar *wmclass, const gchar *name)
 {
     return CurrentTime;
 }
-gboolean sn_get_desktop(gchar *id, guint *desktop) { return FALSE; }
+gboolean sn_get_desktop(gchar *id, gushort *desktop) { return FALSE; }
 void sn_setup_spawn_environment(const gchar *program, const gchar *name,
                                 const gchar *icon_name, const gchar *wmclass,
                                 gint desktop) {}
@@ -210,7 +210,7 @@ Time sn_app_started(const gchar *id, const gchar *wmclass, const gchar *name)
     return t;
 }
 
-gboolean sn_get_desktop(gchar *id, guint *desktop)
+gboolean sn_get_desktop(gchar *id, gushort *desktop)
 {
     SnStartupSequence *seq;
 

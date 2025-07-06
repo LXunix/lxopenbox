@@ -441,7 +441,7 @@ xmlNodePtr obt_xml_find_node(xmlNodePtr node, const gchar *tag)
 }
 
 gboolean obt_xml_attr_bool(xmlNodePtr node, const gchar *name,
-                           gboolean *value)
+                           gchar *value)
 {
     xmlChar *c = xmlGetProp(node, (const xmlChar*) name);
     gboolean r = FALSE;
