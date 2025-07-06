@@ -121,9 +121,9 @@ struct _ObClient
     /*! The clients which are transients (children) of this client */
     GSList *transients;
 
-    /*! The desktop on which the window resides (0xffffffff for all
+    /*! The desktop on which the window resides (0xffff for all
       desktops) */
-    guint desktop;
+    gushort desktop;
 
     /*! The PID of the process which owns the window */
     pid_t pid;
@@ -170,7 +170,7 @@ struct _ObClient
     gchar *sm_client_id;
 
     /*! The type of window (what its function is) */
-    ObClientType type;
+    ObClientType type : 4;
 
     /*! Position and size of the window
       This will not always be the actual position of the window on screen, it

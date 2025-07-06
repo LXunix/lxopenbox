@@ -47,7 +47,7 @@ static gboolean self_update(ObMenuFrame *frame, gpointer data)
     ObMenu *menu = frame->menu;
     ObMenuEntry *e;
     GList *it;
-    guint desktop;
+    gushort desktop;
 
     menu_clear_entries(menu);
 
