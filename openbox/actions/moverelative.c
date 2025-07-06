@@ -5,10 +5,10 @@
 #include "openbox/config.h"
 
 typedef struct {
-    gint x;
-    gint x_denom;
-    gint y;
-    gint y_denom;
+    gshort x;
+    gshort x_denom;
+    gshort y;
+    gshort y_denom;
 } Options;
 
 static gpointer setup_func(xmlNodePtr node);

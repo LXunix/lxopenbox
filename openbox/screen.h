@@ -24,7 +24,7 @@
 
 struct _ObClient;
 
-#define DESKTOP_ALL (0xffffffff)
+#define DESKTOP_ALL (0xffff)
 
 typedef enum {
     SCREEN_SHOW_DESKTOP_NO,

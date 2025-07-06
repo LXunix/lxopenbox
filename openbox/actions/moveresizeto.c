@@ -14,13 +14,13 @@ enum {
 typedef struct {
     GravityCoord x;
     GravityCoord y;
-    gint w;
-    gint w_denom;
-    gint h;
-    gint h_denom;
-    gint monitor;
-    gboolean w_sets_client_size;
-    gboolean h_sets_client_size;
+    gshort w;
+    gshort w_denom;
+    gshort h;
+    gshort h_denom;
+    gshort monitor;
+    gchar w_sets_client_size;
+    gchar h_sets_client_size;
 } Options;
 
 static gpointer setup_func(xmlNodePtr node);
@@ -42,10 +42,10 @@ static gpointer setup_func(xmlNodePtr node)
     Options *o;
 
     o = g_slice_new0(Options);
-    o->x.pos = G_MININT;
-    o->y.pos = G_MININT;
-    o->w = G_MININT;
-    o->h = G_MININT;
+    o->x.pos = G_MINSHORT;
+    o->y.pos = G_MINSHORT;
+    o->w = G_MINSHORT;
+    o->h = G_MINSHORT;
     o->monitor = CURRENT_MONITOR;
 
     if ((n = obt_xml_find_node(node, "x")))
@@ -209,10 +209,10 @@ static gpointer setup_center_func(xmlNodePtr node)
     Options *o;
 
     o = g_slice_new0(Options);
-    o->x.pos = G_MININT;
-    o->y.pos = G_MININT;
-    o->w = G_MININT;
-    o->h = G_MININT;
+    o->x.pos = G_MINSHORT;
+    o->y.pos = G_MINSHORT;
+    o->w = G_MINSHORT;
+    o->h = G_MINSHORT;
     o->monitor = CURRENT_MONITOR;
     o->x.center = TRUE;
     o->y.center = TRUE;

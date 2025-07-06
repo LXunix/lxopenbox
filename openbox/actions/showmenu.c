@@ -9,7 +9,7 @@
 typedef struct {
     gchar         *name;
     GravityPoint   position;
-    ObPlaceMonitor monitor_type;
+    ObPlaceMonitor monitor_type : 3;
     gint           monitor;
     gboolean       use_position;
 } Options;

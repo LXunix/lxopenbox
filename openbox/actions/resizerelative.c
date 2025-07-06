@@ -5,14 +5,14 @@
 #include "openbox/config.h"
 
 typedef struct {
-    gint left;
-    gint left_denom;
-    gint right;
-    gint right_denom;
-    gint top;
-    gint top_denom;
-    gint bottom;
-    gint bottom_denom;
+    gshort left;
+    gshort left_denom;
+    gshort right;
+    gshort right_denom;
+    gshort top;
+    gshort top_denom;
+    gshort bottom;
+    gshort bottom_denom;
 } Options;
 
 static gpointer setup_func(xmlNodePtr node);
@@ -24,7 +24,7 @@ void action_resizerelative_startup(void)
     actions_register("ResizeRelative", setup_func, free_func, run_func);
 }
 
-static void xml_node_relative(xmlNodePtr n, gint *num, gint *denom)
+static void xml_node_relative(xmlNodePtr n, gshort *num, gshort *denom)
 {
     gchar *s;
 
