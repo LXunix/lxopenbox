@@ -37,10 +37,10 @@ struct _ObPromptElement {
     gchar *text;
     Window window;
 
-    gint x, y, width, height;
-    gboolean pressed;
-    gboolean hover;
-    gint result;
+    gshort x, y, width, height;
+    gshort result;
+    gchar pressed;
+    gchar hover;
 };
 
 struct _ObPrompt

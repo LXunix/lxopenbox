@@ -405,7 +405,7 @@ void    RrFontDescriptionFromString(RrFont *font, gchar *description);
    it is non-null. */
 Pixmap RrPaintPixmap (RrAppearance *a, gint w, gint h);
 void   RrPaint       (RrAppearance *a, Window win, gint w, gint h);
-void   RrMinSize     (RrAppearance *a, gint *w, gint *h);
+void   RrMinSize     (RrAppearance *a, gshort *w, gshort *h);
 gint   RrMinWidth    (RrAppearance *a);
 /* For text textures, if flow is TRUE, then the string must be set before
    calling this, otherwise it doesn't need to be */

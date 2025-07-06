@@ -391,7 +391,7 @@ void RrMargins (RrAppearance *a, gint *l, gint *t, gint *r, gint *b)
     }
 }
 
-void RrMinSize(RrAppearance *a, gint *w, gint *h)
+void RrMinSize(RrAppearance *a, gshort *w, gshort *h)
 {
     *w = RrMinWidth(a);
     *h = RrMinHeight(a);

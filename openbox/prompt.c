@@ -229,7 +229,7 @@ static void prompt_layout(ObPrompt *self)
     /* find the button sizes and how much space we need for them */
     allbuttonsw = allbuttonsh = 0;
     for (i = 0; i < self->n_buttons; ++i) {
-        gint bw, bh;
+        gshort bw, bh;
 
         prompt_a_button->texture[0].data.text.string = self->button[i].text;
         prompt_a_focus->texture[0].data.text.string = self->button[i].text;

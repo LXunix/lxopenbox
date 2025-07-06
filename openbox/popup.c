@@ -157,7 +157,8 @@ void popup_delay_show(ObPopup *self, gulong msec, gchar *text)
     gint x, y, w, h;
     guint m;
     gint emptyx, emptyy; /* empty space between elements */
-    gint textx, texty, textw, texth;
+    gint textx, texty;
+    gshort textw, texth;
     gint iconx, icony, iconw, iconh;
     const Rect *area;
     Rect mon;
