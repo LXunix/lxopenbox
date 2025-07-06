@@ -147,14 +147,14 @@ struct _RrSurface {
 struct _RrTextureText {
     RrFont *font;
     RrJustify justify : 2; // 2-bit max value enum 0x00
+    RrColor *color;
+    const gchar *string;
+    RrColor *shadow_color;
     RrEllipsizeMode ellipsize : 4; // 4-bit max value enum 0x0000
     gchar shortcut; /*!< Underline a character */
     gchar flow; /* allow multiple lines.  must set maxwidth below */
     guchar shadow_alpha; /* at the bottom to improve alignment */
     guint shortcut_pos; /*!< Position in bytes of the character to underline */
-    RrColor *color;
-    const gchar *string;
-    RrColor *shadow_color;
     gshort shadow_offset_x;
     gshort shadow_offset_y;
     gshort maxwidth;

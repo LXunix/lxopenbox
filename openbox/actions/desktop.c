@@ -12,10 +12,10 @@ typedef enum {
 } SwitchType;
 
 typedef struct {
-    SwitchType type;
+    SwitchType type : 3;
     union {
         struct {
-            guint desktop;
+            gushort desktop;
         } abs;
 
         struct {

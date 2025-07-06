@@ -55,7 +55,7 @@ struct _ObtDDParse {
 
 struct _ObtDDParseGroup {
     gchar *name;
-    gboolean seen;
+    gchar seen;
     ObtDDParseValueFunc value_func;
     /* the key is a string (a key inside the group in the .desktop).
        the value is an ObtDDParseValue */

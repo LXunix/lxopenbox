@@ -92,7 +92,7 @@ gboolean obt_xml_attr_string   (xmlNodePtr node, const gchar *name,
 gboolean obt_xml_attr_int      (xmlNodePtr node, const gchar *name,
                                 gint *value);
 gboolean obt_xml_attr_bool     (xmlNodePtr node, const gchar *name,
-                                gboolean *value);
+                                gchar *value);
 
 G_END_DECLS
 

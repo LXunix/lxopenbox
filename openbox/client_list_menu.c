@@ -35,7 +35,7 @@ static GSList *desktop_menus;
 
 typedef struct
 {
-    guint desktop;
+    gushort desktop;
 } DesktopData;
 
 #define SEPARATOR -1

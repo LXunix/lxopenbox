@@ -1340,7 +1340,7 @@ void screen_install_colormap(ObClient *client, gboolean install)
 }
 
 typedef struct {
-    guint desktop;
+    gushort desktop;
     StrutPartial *strut;
 } ObScreenStrut;
 
