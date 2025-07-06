@@ -149,15 +149,15 @@ struct _RrTextureText {
     RrJustify justify : 2; // 2-bit max value enum 0x00
     RrColor *color;
     const gchar *string;
-    gint shadow_offset_x;
-    gint shadow_offset_y;
     RrColor *shadow_color;
-    gboolean shortcut; /*!< Underline a character */
-    guint shortcut_pos; /*!< Position in bytes of the character to underline */
     RrEllipsizeMode ellipsize : 4; // 4-bit max value enum 0x0000
-    gboolean flow; /* allow multiple lines.  must set maxwidth below */
-    gint maxwidth;
+    gchar shortcut; /*!< Underline a character */
+    gchar flow; /* allow multiple lines.  must set maxwidth below */
     guchar shadow_alpha; /* at the bottom to improve alignment */
+    guint shortcut_pos; /*!< Position in bytes of the character to underline */
+    gshort shadow_offset_x;
+    gshort shadow_offset_y;
+    gshort maxwidth;
 };
 
 struct _RrPixmapMask {
