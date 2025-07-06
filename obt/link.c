@@ -26,9 +26,9 @@ struct _ObtLink {
 
     ObtLinkType type;
     gchar *name; /*!< Specific name for the object (eg Firefox) */
-    gboolean display; /*<! When false, do not display this link in menus or
+    gchar display; /*<! When false, do not display this link in menus or
                            launchers, etc */
-    gboolean deleted; /*<! When true, the Link could exist but is deleted
+    gchar deleted; /*<! When true, the Link could exist but is deleted
                            for the current user */
     gchar *generic; /*!< Generic name for the object (eg Web Browser) */
     gchar *comment; /*!< Comment/description to display for the object */
@@ -42,7 +42,7 @@ struct _ObtLink {
         struct _ObtLinkApp {
             gchar *exec; /*!< Executable to run for the app */
             gchar *wdir; /*!< Working dir to run the app in */
-            gboolean term; /*!< Run the app in a terminal or not */
+            gchar term; /*!< Run the app in a terminal or not */
             ObtLinkAppOpen open;
 
             gchar **mime; /*!< Mime types the app can open */
