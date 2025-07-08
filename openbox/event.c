@@ -1084,14 +1084,14 @@ static void event_handle_client(ObClient *client, XEvent *e)
             /* When the mouse leaves an animating window, don't use the
                corresponding enter events. Pretend like the animating window
                doesn't even exist..! */
-            if (frame_iconify_animating(client->frame))
+            if (client && frame_iconify_animating(client->frame))
                 event_end_ignore_all_enters(event_start_ignore_all_enters());
 
             ob_debug_type(OB_DEBUG_FOCUS,
                           "%sNotify mode %d detail %d on %lx",
                           (e->type == EnterNotify ? "Enter" : "Leave"),
                           e->xcrossing.mode,
-                          e->xcrossing.detail, (client?client->window:0));
+                          e->xcrossing.detail, client->window);
             if (grab_on_keyboard())
                 break;
             if (config_focus_follow &&
