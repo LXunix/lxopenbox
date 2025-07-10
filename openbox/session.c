@@ -481,16 +481,16 @@ static gboolean session_save_to_file(const ObSMSaveData *savedata)
 
         fprintf(f, "<desktop>%d</desktop>\n", savedata->desktop);
 
-        fprintf(f, "<numdesktops>%d</numdesktops>\n", screen_num_desktops);
+        fprintf(f, "<numdesktops>%u</numdesktops>\n", screen_num_desktops);
 
         fprintf(f, "<desktoplayout>\n");
         fprintf(f, "  <orientation>%d</orientation>\n",
                 screen_desktop_layout.orientation);
         fprintf(f, "  <startcorner>%d</startcorner>\n",
                 screen_desktop_layout.start_corner);
-        fprintf(f, "  <columns>%d</columns>\n",
+        fprintf(f, "  <columns>%u</columns>\n",
                 screen_desktop_layout.columns);
-        fprintf(f, "  <rows>%d</rows>\n",
+        fprintf(f, "  <rows>%u</rows>\n",
                 screen_desktop_layout.rows);
         fprintf(f, "</desktoplayout>\n");
 
