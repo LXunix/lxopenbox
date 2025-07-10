@@ -49,9 +49,9 @@ void window_shutdown(gboolean reconfig)
     g_hash_table_destroy(window_map);
 }
 
-Window window_top(enum ObWindow *self)
+Window window_top(ObWindow *self)
 {
-    switch (*self) {
+    switch (self->type) {
     case OB_WINDOW_CLASS_MENUFRAME:
         return WINDOW_AS_MENUFRAME(self)->window;
     case OB_WINDOW_CLASS_DOCK:
@@ -67,9 +67,9 @@ Window window_top(enum ObWindow *self)
     return None;
 }
 
-ObStackingLayer window_layer(enum ObWindow *self)
+ObStackingLayer window_layer(ObWindow *self)
 {
-    switch (*self) {
+    switch (self->type) {
     case OB_WINDOW_CLASS_DOCK:
         return config_dock_layer;
     case OB_WINDOW_CLASS_CLIENT:
@@ -86,12 +86,12 @@ ObStackingLayer window_layer(enum ObWindow *self)
     return None;
 }
 
-enum ObWindow* window_find(Window xwin)
+ObWindow* window_find(Window xwin)
 {
     return g_hash_table_lookup(window_map, &xwin);
 }
 
-void window_add(Window *xwin, enum ObWindow *win)
+void window_add(Window *xwin, ObWindow *win)
 {
     g_assert(xwin != NULL);
     g_assert(win != NULL);

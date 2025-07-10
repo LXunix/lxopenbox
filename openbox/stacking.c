@@ -116,7 +116,7 @@ static void do_restack(GList *wins, GList *before)
     stacking_set_list();
 }
 
-void stacking_temp_raise(enum ObWindow *window)
+void stacking_temp_raise(ObWindow *window)
 {
     Window win[2];
     GList *it;
@@ -128,7 +128,7 @@ void stacking_temp_raise(enum ObWindow *window)
     /* find the window to drop it underneath */
     win[0] = screen_support_win;
     for (it = stacking_list; it; it = g_list_next(it)) {
-        enum ObWindow *w = it->data;
+        ObWindow *w = it->data;
         if (window_layer(w) >= OB_STACKING_LAYER_INTERNAL)
             win[0] = window_top(w);
         else
@@ -393,7 +393,7 @@ static void restack_windows(ObClient *selected, gboolean raise)
     }
 }
 
-void stacking_raise(enum ObWindow *window)
+void stacking_raise(ObWindow *window)
 {
     if (WINDOW_IS_CLIENT(window)) {
         ObClient *selected;
@@ -409,7 +409,7 @@ void stacking_raise(enum ObWindow *window)
     stacking_list_tail = g_list_last(stacking_list);
 }
 
-void stacking_lower(enum ObWindow *window)
+void stacking_lower(ObWindow *window)
 {
     if (WINDOW_IS_CLIENT(window)) {
         ObClient *selected;
@@ -425,7 +425,7 @@ void stacking_lower(enum ObWindow *window)
     stacking_list_tail = g_list_last(stacking_list);
 }
 
-void stacking_below(enum ObWindow *window, enum ObWindow *below)
+void stacking_below(ObWindow *window, ObWindow *below)
 {
     GList *wins, *before;
 
@@ -440,7 +440,7 @@ void stacking_below(enum ObWindow *window, enum ObWindow *below)
     stacking_list_tail = g_list_last(stacking_list);
 }
 
-void stacking_add(enum ObWindow *win)
+void stacking_add(ObWindow *win)
 {
     g_assert(screen_support_win != None); /* make sure I dont break this in the
                                              future */
@@ -494,7 +494,7 @@ static GList *find_highest_relative(ObClient *client)
     return ret;
 }
 
-void stacking_add_nonintrusive(enum ObWindow *win)
+void stacking_add_nonintrusive(ObWindow *win)
 {
     ObClient *client;
     GList *it_below = NULL; /* this client will be below us */
@@ -569,7 +569,7 @@ void stacking_add_nonintrusive(enum ObWindow *win)
 /*! Returns TRUE if client is occluded by the sibling. If sibling is NULL it
   tries against all other clients.
 */
-static gboolean stacking_occluded(ObClient *client, enum ObWindow *sibling_win)
+static gboolean stacking_occluded(ObClient *client, ObWindow *sibling_win)
 {
     GList *it;
     gboolean occluded = FALSE;
@@ -629,7 +629,7 @@ static gboolean stacking_occluded(ObClient *client, enum ObWindow *sibling_win)
 /*! Returns TRUE if client occludes the sibling. If sibling is NULL it tries
   against all other clients.
 */
-static gboolean stacking_occludes(ObClient *client, enum ObWindow *sibling_win)
+static gboolean stacking_occludes(ObClient *client, ObWindow *sibling_win)
 {
     GList *it;
     gboolean occludes = FALSE;
@@ -687,7 +687,7 @@ static gboolean stacking_occludes(ObClient *client, enum ObWindow *sibling_win)
     return occludes;
 }
 
-gboolean stacking_restack_request(ObClient *client, enum ObWindow *sibling_win,
+gboolean stacking_restack_request(ObClient *client, ObWindow *sibling_win,
                                   gint detail)
 {
     gboolean ret = FALSE;

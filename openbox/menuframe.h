@@ -39,7 +39,7 @@ extern GList *menu_frame_visible;
 struct _ObMenuFrame
 {
     /* stuff to be an ObWindow */
-    enum ObWindow obwin : 3; // 3-bit max value enum 0x000 (ObWindowClass)
+    ObWindow obwin;
     Window window;
 
     struct _ObMenu *menu;

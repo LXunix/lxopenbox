@@ -83,7 +83,7 @@ void dock_startup(gboolean reconfig)
                       0, 0, 0, 0, 0, 0, 0, 0);
 
     dock = g_slice_new0(ObDock);
-    dock->obwin = OB_WINDOW_CLASS_DOCK;
+    dock->obwin.type = OB_WINDOW_CLASS_DOCK;
 
     dock->hidden = TRUE;
 

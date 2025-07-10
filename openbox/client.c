@@ -232,7 +232,7 @@ void client_manage(Window window, ObPrompt *prompt)
     /* create the ObClient struct, and populate it from the hints on the
        window */
     self = g_slice_new0(ObClient);
-    self->obwin = OB_WINDOW_CLASS_CLIENT;
+    self->obwin.type = OB_WINDOW_CLASS_CLIENT;
     self->window = window;
     self->prompt = prompt;
     self->managed = TRUE;
@@ -1423,7 +1423,7 @@ void client_update_transient_for(ObClient *self)
 
     if (XGetTransientForHint(obt_display, self->window, &t)) {
         if (t != self->window) { /* can't be transient to itself! */
-            enum ObWindow *tw = window_find(t);
+            ObWindow *tw = window_find(t);
             /* if this happens then we need to check for it */
             g_assert(tw != CLIENT_AS_WINDOW(self));
             if (tw && WINDOW_IS_CLIENT(tw)) {

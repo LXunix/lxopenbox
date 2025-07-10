@@ -1393,7 +1393,7 @@ ObFrameContext frame_context_from_string(const gchar *name)
 ObFrameContext frame_context(ObClient *client, Window win, gint x, gint y)
 {
     ObFrame *self;
-    enum ObWindow *obwin;
+    ObWindow *obwin;
 
     if (moveresize_in_progress)
         return OB_FRAME_CONTEXT_MOVE_RESIZE;

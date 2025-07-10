@@ -23,7 +23,7 @@
 #include <glib.h>
 #include <X11/Xlib.h>
 
-enum ObWindow;
+struct _ObWindow;
 struct _ObClient;
 
 /*! The possible stacking layers a client window can be a part of */
@@ -47,27 +47,27 @@ extern GList *stacking_list_tail;
   stacking_list */
 void stacking_set_list(void);
 
-void stacking_add(enum ObWindow *win);
-void stacking_add_nonintrusive(enum ObWindow *win);
+void stacking_add(struct _ObWindow *win);
+void stacking_add_nonintrusive(struct _ObWindow *win);
 #define stacking_remove(win) stacking_list = g_list_remove(stacking_list, win);
 
 /*! Raises a window above all others in its stacking layer */
-void stacking_raise(enum ObWindow *window);
+void stacking_raise(struct _ObWindow *window);
 
 /*! Temporarily raises a window above all others */
-void stacking_temp_raise(enum ObWindow *window);
+void stacking_temp_raise(struct _ObWindow *window);
 
 /*! Restores any temporarily raised windows to their correct place */
 void stacking_restore(void);
 
 /*! Lowers a window below all others in its stacking layer */
-void stacking_lower(enum ObWindow *window);
+void stacking_lower(struct _ObWindow *window);
 
 /*! Moves a window below another if its in the same layer.
   This function does not enforce stacking rules IRT transients n such, and so
   it should really ONLY be used to restore stacking orders from saved sessions
 */
-void stacking_below(enum ObWindow *window, enum ObWindow *below);
+void stacking_below(struct _ObWindow *window, struct _ObWindow *below);
 
 /*! Restack a window based upon a sibling (or all windows) in various ways.
   @param client The client to be restacked
@@ -79,7 +79,7 @@ void stacking_below(enum ObWindow *window, enum ObWindow *below);
   how each detail works with and without a sibling.
 */
 gboolean stacking_restack_request(struct _ObClient *client,
-                                  enum ObWindow *sibling_win,
+                                  struct _ObWindow *sibling_win,
                                   gint detail);
 
 #endif

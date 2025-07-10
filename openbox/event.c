@@ -356,7 +356,7 @@ static gboolean wanted_focusevent(XEvent *e, gboolean in_client_only)
            but has disappeared.
         */
         if (in_client_only) {
-            enum ObWindow *w = window_find(e->xfocus.window);
+            ObWindow *w = window_find(e->xfocus.window);
             if (!w || !WINDOW_IS_CLIENT(w))
                 return FALSE;
         }
@@ -461,7 +461,7 @@ static void event_process(const XEvent *ec, gpointer data)
     ObClient *client = NULL;
     ObDock *dock = NULL;
     ObDockApp *dockapp = NULL;
-    enum ObWindow *obwin = NULL;
+    ObWindow *obwin = NULL;
     ObMenuFrame *menu = NULL;
     ObPrompt *prompt = NULL;
     gboolean used;
@@ -474,7 +474,7 @@ static void event_process(const XEvent *ec, gpointer data)
     if (window == obt_root(ob_screen))
         /* don't do any lookups, waste of cpu */;
     else if ((obwin = window_find(window))) {
-        switch (*obwin) {
+        switch (obwin->type) {
         case OB_WINDOW_CLASS_DOCK:
             dock = WINDOW_AS_DOCK(obwin);
             break;
@@ -705,7 +705,7 @@ static void event_process(const XEvent *ec, gpointer data)
 #endif
 
     if (e->type == ButtonPress || e->type == ButtonRelease) {
-        enum ObWindow *w;
+        ObWindow *w;
         static guint pressed = 0;
 
         event_sourcetime = event_curtime;
@@ -1209,13 +1209,13 @@ static void event_handle_client(ObClient *client, XEvent *e)
             }
 
         if (e->xconfigurerequest.value_mask & CWStackMode) {
-            enum ObWindow *sibling = NULL;
+            ObWindow *sibling = NULL;
             gulong ignore_start;
             gboolean ok = TRUE;
 
             /* get the sibling */
             if (e->xconfigurerequest.value_mask & CWSibling) {
-                enum ObWindow *win;
+                ObWindow *win;
                 win = window_find(e->xconfigurerequest.above);
                 if (win && WINDOW_IS_CLIENT(win) &&
                     WINDOW_AS_CLIENT(win) != client)
@@ -1574,9 +1574,9 @@ static void event_handle_client(ObClient *client, XEvent *e)
                               "invalid source indication %ld",
                               client->title, e->xclient.data.l[0]);
             } else {
-                enum ObWindow *sibling = NULL;
+                ObWindow *sibling = NULL;
                 if (e->xclient.data.l[1]) {
-                    enum ObWindow *win = window_find(e->xclient.data.l[1]);
+                    ObWindow *win = window_find(e->xclient.data.l[1]);
                     if (WINDOW_IS_CLIENT(win) &&
                         WINDOW_AS_CLIENT(win) != client)
                     {

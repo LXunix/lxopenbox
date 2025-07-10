@@ -65,7 +65,7 @@ struct _ObFocusCyclePopupTarget
 
 struct _ObFocusCyclePopup
 {
-    enum ObWindow obwin : 3; // 3-bit max value enum 0x000 (ObWindowClass)
+    ObWindow obwin;
     Window bg;
 
     /* This is used when the popup is in icon mode */
@@ -122,7 +122,7 @@ void focus_cycle_popup_startup(gboolean reconfig)
 
     single_popup = icon_popup_new();
 
-    popup.obwin = OB_WINDOW_CLASS_INTERNAL;
+    popup.obwin.type = OB_WINDOW_CLASS_INTERNAL;
     popup.a_bg = RrAppearanceCopy(ob_rr_theme->osd_bg);
     popup.a_hilite_text = RrAppearanceCopy(ob_rr_theme->osd_hilite_label);
     popup.a_text = RrAppearanceCopy(ob_rr_theme->osd_unhilite_label);

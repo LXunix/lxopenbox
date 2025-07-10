@@ -33,7 +33,7 @@ typedef struct _ObDockApp ObDockApp;
 
 struct _ObDock
 {
-    enum ObWindow obwin : 3; // 3-bit max value enum 0x000 (ObWindowClass)
+    ObWindow obwin;
 
     Window frame;
     RrAppearance *a_frame;

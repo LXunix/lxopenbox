@@ -35,7 +35,7 @@ typedef struct _ObPagerPopup ObPagerPopup;
 
 struct _ObPopup
 {
-    enum ObWindow obwin : 3; // 3-bit max value enum 0x000 (ObWindowClass)
+    ObWindow obwin;
     Window bg;
 
     Window text;

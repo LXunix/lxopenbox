@@ -33,7 +33,7 @@ ObPopup *popup_new(void)
     XSetWindowAttributes attrib;
     ObPopup *self = g_slice_new0(ObPopup);
 
-    self->obwin = OB_WINDOW_CLASS_INTERNAL;
+    self->obwin.type = OB_WINDOW_CLASS_INTERNAL;
     self->gravity = NorthWestGravity;
     self->x = self->y = self->textw = self->h = 0;
     self->a_bg = RrAppearanceCopy(ob_rr_theme->osd_bg);

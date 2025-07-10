@@ -112,7 +112,7 @@ ObMenuFrame* menu_frame_new(ObMenu *menu, guint show_from, ObClient *client)
     XSetWindowAttributes attr;
 
     self = g_slice_new0(ObMenuFrame);
-    self->obwin = OB_WINDOW_CLASS_MENUFRAME;
+    self->obwin.type = OB_WINDOW_CLASS_MENUFRAME;
     self->menu = menu;
     self->selected = NULL;
     self->client = client;

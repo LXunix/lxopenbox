@@ -71,7 +71,7 @@ typedef enum
 
 struct _ObClient
 {
-    enum ObWindow obwin : 3; // 3-bit max value enum 0x000 (ObWindowClass)
+    ObWindow obwin;
     Window  window;
 
     /*! The layer in which the window will be stacked, windows in lower layers
