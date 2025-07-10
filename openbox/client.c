@@ -2413,7 +2413,7 @@ static void client_get_session_ids(ObClient *self)
     guint32 leader;
     gboolean got;
     gchar *s;
-    gchar **ss;
+    gchar **ss = NULL;
 
     if (!OBT_PROP_GET32(self->window, WM_CLIENT_LEADER, WINDOW, &leader))
         leader = None;
