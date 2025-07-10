@@ -302,7 +302,7 @@ RrImageSet* RrImageSetMergeSets(RrImageSet *b, RrImageSet *a)
 
     tmp = b_i;
     for (; b_i < b->n_resized; ++b_i) {
-        g_hash_table_remove(a->cache->pic_table, b->resized[b_i]);
+        g_hash_table_remove(b->cache->pic_table, b->resized[b_i]);
         RrImagePicFree(b->resized[b_i]);
     }
     b->n_resized = tmp;
