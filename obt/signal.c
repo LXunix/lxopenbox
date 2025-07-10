@@ -196,7 +196,7 @@ void obt_signal_remove_callback(gint sig, ObtSignalHandler func)
     gint i;
 
     g_return_if_fail(func != NULL);
-    g_return_if_fail(sig >= 0 && sig <= NUM_SIGNALS);
+    g_return_if_fail(sig >= 0 && sig < NUM_SIGNALS);
     for (i = 0; i < NUM_CORE_SIGNALS; ++i)
         g_return_if_fail(sig != core_signals[i]);
 
