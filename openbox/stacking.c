@@ -357,7 +357,7 @@ static void restack_windows(ObClient *selected, gboolean raise)
        g_list_prepend */
     if (below) it = g_list_previous(below);
     else       it = g_list_last(stacking_list);
-    for (; it != above; it = next) {
+    for (it; it != above; it = next) {
         next = g_list_previous(it);
         wins = g_list_prepend(wins, it->data);
         stacking_list = g_list_delete_link(stacking_list, it);
