@@ -167,7 +167,7 @@ static gboolean run_func(ObActionsData *data, gpointer options)
         if (o->x.denom) /* relative positions */
             x = (x * area->width) / o->x.denom;
         if (o->x.center) x = (area->width - w) / 2;
-        else if (x == G_MININT) /* not specified */
+        else if (x == G_MINSHORT) /* not specified */
             x = c->frame->area.x - carea->x;
         else if (o->x.opposite) /* value relative to right edge instead of left */
             x = area->width - w - x;
@@ -177,7 +177,7 @@ static gboolean run_func(ObActionsData *data, gpointer options)
         if (o->y.denom)
             y = (y * area->height) / o->y.denom;
         if (o->y.center) y = (area->height - h) / 2;
-        else if (y == G_MININT)
+        else if (y == G_MINSHORT)
             y = c->frame->area.y - carea->y;
         else if (o->y.opposite)
             y = area->height - h - y;
