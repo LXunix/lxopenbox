@@ -2222,9 +2222,6 @@ void client_update_title(ObClient *self)
         self->icon_title = visible;
     } else
         g_free(visible);
-
-    g_free(visible);
-    g_free(data);
 }
 
 void client_update_strut(ObClient *self)

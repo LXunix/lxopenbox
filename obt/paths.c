@@ -69,9 +69,6 @@ static GSList* slist_path_add(GSList *list, gpointer data, GSListFunc func)
 {
     g_assert(func);
 
-    if (!list)
-        return NULL;
-
     if (!data)
         return list;
 
