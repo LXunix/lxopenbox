@@ -651,7 +651,7 @@ static gint menu_entry_frame_get_height(ObMenuEntryFrame *self,
         h += ob_rr_theme->menu_font_height;
         break;
     case OB_MENU_ENTRY_TYPE_SEPARATOR:
-        if (self && self->entry->data.separator.label != NULL) {
+        if (self->entry->data.separator.label != NULL) {
             h += ob_rr_theme->menu_title_height +
                 (ob_rr_theme->mbwidth - PADDING) * 2;
 
