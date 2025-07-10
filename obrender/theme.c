@@ -1257,8 +1257,8 @@ static gboolean read_mask(const RrInstance *inst, const gchar *path,
     return ret;
 }
 
-static void parse_appearance(gchar *tex, RrSurfaceColorType grad,
-                             RrReliefType relief, RrBevelType bevel,
+static void parse_appearance(gchar *tex, RrSurfaceColorType *grad,
+                             RrReliefType *relief, RrBevelType *bevel,
                              gchar *interlaced, gchar *border,
                              gboolean allow_trans)
 {
@@ -1269,47 +1269,47 @@ static void parse_appearance(gchar *tex, RrSurfaceColorType grad,
         *t = g_ascii_tolower(*t);
 
     if (allow_trans && strstr(tex, "parentrelative") != NULL) {
-        grad = RR_SURFACE_PARENTREL;
+        *grad = RR_SURFACE_PARENTREL;
     } else {
         if (strstr(tex, "gradient") != NULL) {
             if (strstr(tex, "crossdiagonal") != NULL)
-                grad = RR_SURFACE_CROSS_DIAGONAL;
+                *grad = RR_SURFACE_CROSS_DIAGONAL;
             else if (strstr(tex, "pyramid") != NULL)
-                grad = RR_SURFACE_PYRAMID;
+                *grad = RR_SURFACE_PYRAMID;
             else if (strstr(tex, "mirrorhorizontal") != NULL)
-                grad = RR_SURFACE_MIRROR_HORIZONTAL;
+                *grad = RR_SURFACE_MIRROR_HORIZONTAL;
             else if (strstr(tex, "horizontal") != NULL)
-                grad = RR_SURFACE_HORIZONTAL;
+                *grad = RR_SURFACE_HORIZONTAL;
             else if (strstr(tex, "splitvertical") != NULL)
-                grad = RR_SURFACE_SPLIT_VERTICAL;
+                *grad = RR_SURFACE_SPLIT_VERTICAL;
             else if (strstr(tex, "vertical") != NULL)
-                grad = RR_SURFACE_VERTICAL;
+                *grad = RR_SURFACE_VERTICAL;
             else
-                grad = RR_SURFACE_DIAGONAL;
+                *grad = RR_SURFACE_DIAGONAL;
         } else {
-            grad = RR_SURFACE_SOLID;
+            *grad = RR_SURFACE_SOLID;
         }
     }
 
     if (strstr(tex, "sunken") != NULL)
-        relief = RR_RELIEF_SUNKEN;
+        *relief = RR_RELIEF_SUNKEN;
     else if (strstr(tex, "flat") != NULL)
-        relief = RR_RELIEF_FLAT;
+        *relief = RR_RELIEF_FLAT;
     else if (strstr(tex, "raised") != NULL)
-        relief = RR_RELIEF_RAISED;
+        *relief = RR_RELIEF_RAISED;
     else
-        relief = (grad == RR_SURFACE_PARENTREL) ?
+        *relief = (*grad == RR_SURFACE_PARENTREL) ?
                   RR_RELIEF_FLAT : RR_RELIEF_RAISED;
 
     *border = FALSE;
-    if (relief == RR_RELIEF_FLAT) {
+    if (*relief == RR_RELIEF_FLAT) {
         if (strstr(tex, "border") != NULL)
             *border = TRUE;
     } else {
         if (strstr(tex, "bevel2") != NULL)
-            bevel = RR_BEVEL_2;
+            *bevel = RR_BEVEL_2;
         else
-            bevel = RR_BEVEL_1;
+            *bevel = RR_BEVEL_1;
     }
 
     if (strstr(tex, "interlaced") != NULL)
@@ -1342,9 +1342,9 @@ static gboolean read_appearance(XrmDatabase db, const RrInstance *inst,
     if (XrmGetResource(db, rname, rclass, &rettype, &retvalue) &&
         retvalue.addr != NULL) {
         parse_appearance(retvalue.addr,
-                         value->surface.grad,
-                         value->surface.relief,
-                         value->surface.bevel,
+                         &value->surface.grad,
+                         &value->surface.relief,
+                         &value->surface.bevel,
                          &value->surface.interlaced,
                          &value->surface.border,
                          allow_trans);

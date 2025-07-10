@@ -123,9 +123,9 @@ typedef enum {
 } RrFontSlant;
 
 struct _RrSurface {
-    RrSurfaceColorType grad : 4; // 4-bit max value enum 0x0000
-    RrReliefType relief : 3; // 3-bit max value enum 0x000
-    RrBevelType bevel : 2; // 2-bit max value enum 0x00
+    RrSurfaceColorType grad;
+    RrReliefType relief;
+    RrBevelType bevel;
     RrColor *primary;
     RrColor *secondary;
     RrColor *border_color;
