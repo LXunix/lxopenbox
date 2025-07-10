@@ -453,7 +453,8 @@ static void parse_group(const gchar *buf, gulong len,
 static void parse_key_value(const gchar *buf, gulong len,
                             ObtDDParse *parse, gboolean *error)
 {
-    gulong i, keyend, valstart, eq;
+    gulong i, keyend, eq;
+    gulong valstart = 0UL;
     char *key;
 
     /* find the end of the key */
