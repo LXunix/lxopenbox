@@ -342,7 +342,7 @@ static gboolean run_func_if_internal(ObActionsData *data, gpointer options)
 {
     Options *o = options;
     ObClient *action_target = data->client;
-    gboolean is_true = TRUE;
+    gchar is_true = TRUE;
 
     guint i;
     for (i = 0; is_true && i < o->queries->len; ++i) {
