@@ -14,11 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install required packages
-      run: sudo apt-get install autopoint gettext m4 autoconf autotools-dev libglib2.0-dev libpango1.0-dev
+      run: sudo apt-get install autopoint gettext m4 autoconf autotools-dev libglib2.0-dev libpango1.0-dev libxext-dev 
     - name: bootstrap
       run: ./bootstrap
     - name: configure
-      run: ./configure --prefix=/usr --sysconfdir=/etc
+      run: ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib64
     - name: make
       run: make
     - name: make check
