@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install required packages
-      run: apt-get install autopoint m4 autoconf autotools-dev
+      run: sudo apt-get install autopoint m4 autoconf autotools-dev
     - name: bootstrap
       run: ./bootstrap
     - name: configure
