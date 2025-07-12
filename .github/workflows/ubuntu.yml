@@ -18,7 +18,7 @@ jobs:
     - name: bootstrap
       run: ./bootstrap
     - name: configure
-      run: ./configure
+      run: ./configure --prefix=/usr --sysconfdir=/etc
     - name: make
       run: make
     - name: make check
