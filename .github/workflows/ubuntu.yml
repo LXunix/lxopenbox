@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install required packages
-      run: sudo apt-get install autopoint gettext m4 autoconf autotools-dev libglib2.0-dev libpango1.0-dev libxext-dev 
+      run: sudo apt-get install autopoint gettext m4 autoconf autotools-dev libglib2.0-dev libpango1.0-dev libxext-dev xlibs-static-dev x11proto-randr-dev libstartup-notification0-dev libimlib2-dev libxcursor-dev libxml2-dev 
     - name: bootstrap
       run: ./bootstrap
     - name: configure
