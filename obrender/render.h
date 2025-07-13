@@ -154,7 +154,7 @@ struct _RrTextureText {
     gchar shortcut; /*!< Underline a character */
     gchar flow; /* allow multiple lines.  must set maxwidth below */
     guchar shadow_alpha; /* at the bottom to improve alignment */
-    guint shortcut_pos; /*!< Position in bytes of the character to underline */
+    gushort shortcut_pos; /*!< Position in bytes of the character to underline */
     gshort shadow_offset_x;
     gshort shadow_offset_y;
     gshort maxwidth;
@@ -174,35 +174,35 @@ struct _RrTextureMask {
 };
 
 struct _RrTextureRGBA {
-    gint width;
-    gint height;
-    gint alpha;
+    gshort width;
+    gshort height;
+    gshort alpha;
     RrPixel32 *data;
     /* size and position to draw at (if these are zero, then it will be
        drawn to fill the entire texture */
-    gint tx;
-    gint ty;
-    gint twidth;
-    gint theight;
+    gshort tx;
+    gshort ty;
+    gshort twidth;
+    gshort theight;
 };
 
 struct _RrTextureImage {
     RrImage *image;
-    gint alpha;
+    gshort alpha;
     /* size and position to draw at (if these are zero, then it will be
        drawn to fill the entire texture */
-    gint tx;
-    gint ty;
-    gint twidth;
-    gint theight;
+    gshort tx;
+    gshort ty;
+    gshort twidth;
+    gshort theight;
 };
 
 struct _RrTextureLineArt {
     RrColor *color;
-    gint x1;
-    gint y1;
-    gint x2;
-    gint y2;
+    gshort x1;
+    gshort y1;
+    gshort x2;
+    gshort y2;
 };
 
 union _RrTextureData {
