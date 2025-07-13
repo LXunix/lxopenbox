@@ -20,6 +20,10 @@
 #include "render.h"
 #include "instance.h"
 
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
 static RrInstance *definst = NULL;
 
 static void RrTrueColorSetup (RrInstance *inst);
@@ -174,6 +178,25 @@ static void RrPseudoColorSetup (RrInstance *inst)
     for (i = 0; i < _ncolors; i++) {
         if (!inst->pseudo_colors[i].flags) { /* if it wasn't allocated... */
             gulong closest = 0xffffffff, close = 0;
+#ifdef __SSE2__
+            __m128i target_color = _mm_set_epi16(0, 0, 0, 0, 0, inst->pseudo_colors[i].blue, inst->pseudo_colors[i].green, inst->pseudo_colors[i].red);
+            __m128i min_dev_vec = _mm_set1_epi64x(0xffffffffffffffffULL);
+            int min_idx = 0;
+
+            for (ii = 0; ii < incolors; ii++) {
+                __m128i current_color = _mm_set_epi16(0, 0, 0, 0, 0, icolors[ii].blue, icolors[ii].green, icolors[ii].red);
+                __m128i diff = _mm_sub_epi16(target_color, current_color);
+                __m128i sq_diff = _mm_mullo_epi16(diff, diff);
+                __m128i sum_sq_diff = _mm_add_epi64(_mm_unpacklo_epi16(sq_diff, _mm_setzero_si128()), _mm_setzero_si128()); // Sum of squares
+                sum_sq_diff = _mm_add_epi64(sum_sq_diff, _mm_srli_si128(sum_sq_diff, 8)); // Add high 64 bits to low 64 bits
+
+                if (_mm_cvtsi128_si64(sum_sq_diff) < _mm_cvtsi128_si64(min_dev_vec)) {
+                    min_dev_vec = sum_sq_diff;
+                    min_idx = ii;
+                }
+            }
+            close = min_idx;
+#else
             for (ii = 0; ii < incolors; ii++) {
                 /* find deviations */
                 r = (inst->pseudo_colors[i].red - icolors[ii].red) & 0xff;
@@ -187,6 +210,7 @@ static void RrPseudoColorSetup (RrInstance *inst)
                     close = ii;
                 }
             }
+#endif
 
             inst->pseudo_colors[i].red = icolors[close].red;
             inst->pseudo_colors[i].green = icolors[close].green;
