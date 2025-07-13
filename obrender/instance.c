@@ -20,9 +20,7 @@
 #include "render.h"
 #include "instance.h"
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
+#include <immintrin.h>
 
 static RrInstance *definst = NULL;
 

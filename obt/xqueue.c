@@ -19,9 +19,7 @@
 #include "obt/xqueue.h"
 #include "obt/display.h"
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
+#include <immintrin.h>
 
 #define MINSZ 16
 

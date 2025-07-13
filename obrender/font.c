@@ -31,10 +31,7 @@
 #include <stdlib.h>
 #include <locale.h>
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
-
+#include <immintrin.h>
 
 static void measure_font(const RrInstance *inst, RrFont *f)
 {

@@ -35,9 +35,7 @@
 #  include <stdlib.h>
 #endif
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
+#include <immintrin.h>
 
 static void pixel_data_to_pixmap(RrAppearance *l,
                                  gint x, gint y, gint w, gint h);

@@ -31,13 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
-
-#ifdef __SSSE3__
-#include <tmmintrin.h>
-#endif
+#include <immintrin.h>
 
 struct fallbacks {
     RrAppearance *focused_disabled;
