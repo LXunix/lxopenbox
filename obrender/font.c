@@ -31,6 +31,11 @@
 #include <stdlib.h>
 #include <locale.h>
 
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
+
 static void measure_font(const RrInstance *inst, RrFont *f)
 {
     PangoFontMetrics *metrics;
@@ -309,15 +314,30 @@ void RrFontDraw(XftDraw *d, RrTextureText *t, RrRect *area)
            and alpha value a, then you must render (a*r, a*g, a*b, a) into the
            target window.
         */
-        c.color.red = (t->shadow_color->r | t->shadow_color->r << 8) *
-            t->shadow_alpha / 255;
-        c.color.green = (t->shadow_color->g | t->shadow_color->g << 8) *
-            t->shadow_alpha / 255;
-        c.color.blue = (t->shadow_color->b | t->shadow_color->b << 8) *
-            t->shadow_alpha / 255;
-        c.color.alpha = 0xffff * t->shadow_alpha / 255;
-        c.pixel = t->shadow_color->pixel;
 
+#ifdef __SSE2__
+        __m128i shadow_color_sse = _mm_set_epi16(0, 0, t->shadow_color->b, t->shadow_color->g, t->shadow_color->r, t->shadow_color->b, t->shadow_color->g, t->shadow_color->r);
+        __m128i alpha_sse = _mm_set1_epi16(t->shadow_alpha);
+        __m128i scale_factor_sse = _mm_set1_epi16(255);
+
+        /* expand 8-bit components to 16-bit (r | r << 8) */
+        shadow_color_sse = _mm_or_si128(shadow_color_sse, _mm_slli_epi16(shadow_color_sse, 8));
+
+        /* multiply by alpha and divide by 255 */
+        __m128i result_sse = _mm_mullo_epi16(shadow_color_sse, alpha_sse);
+        result_sse = _mm_srli_epi16(_mm_add_epi16(result_sse, _mm_srli_epi16(scale_factor_sse, 1)), 8); // (val * alpha + 127) / 255 approx (val * alpha) / 255
+
+        c.color.red = _mm_extract_epi16(result_sse, 0);
+        c.color.green = _mm_extract_epi16(result_sse, 1);
+        c.color.blue = _mm_extract_epi16(result_sse, 2);
+        c.color.alpha = (0xffff * t->shadow_alpha) / 255;
+#else
+        c.color.red = (t->shadow_color->r | t->shadow_color->r << 8) * t->shadow_alpha / 255;
+        c.color.green = (t->shadow_color->g | t->shadow_color->g << 8) * t->shadow_alpha / 255;
+        c.color.blue = (t->shadow_color->b | t->shadow_color->b << 8) * t->shadow_alpha / 255;
+        c.color.alpha = (0xffff * t->shadow_alpha) / 255;
+#endif
+        c.pixel = t->shadow_color->pixel;
         /* see below... */
         if (!t->flow) {
             pango_xft_render_layout_line
