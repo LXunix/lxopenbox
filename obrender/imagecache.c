@@ -136,6 +136,10 @@ CityHash64 (const gchar *s, gsize len)
   const guint64 k0 = 0xc3a5c85c97cb3127ULL;
   const guint64 k1 = 0xb492b66fbe98f273ULL;
   const guint64 k2 = 0x9ae16a3b2f90404fULL;
+#ifdef __SSE4_2__
+  const guint64 seed = k2 + len;
+  return _mm_crc32_u64 (_mm_crc32_u64 (seed, UNALIGNED_LOAD64 (s)), UNALIGNED_LOAD64 (s + 8));
+#else
   const gchar *p = s;
   const gchar *end = s + len;
   guint64 h = k2 + len;
@@ -175,6 +179,7 @@ CityHash64 (const gchar *s, gsize len)
   h *= k0;
   h = ShiftMix (h);
   return h;
+#endif
 }
 
 /*! This is some arbitrary initial value for the hashing function.  It's
