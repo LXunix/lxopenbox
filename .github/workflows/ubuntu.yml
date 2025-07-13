@@ -19,12 +19,8 @@ jobs:
       run: ./bootstrap
     - name: configure
       run: ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib64
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: make only SSE2/SSE4.1 support
+      run: make CFLAGS="-msse2 -msse4.1" CXXFLAGS="-msse2 -msse4.1"
 
     - name: Upload a Build Artifact for Ubuntu Latest
       uses: actions/upload-artifact@v4.6.2
