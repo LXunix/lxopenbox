@@ -69,7 +69,8 @@ obrender_rendertest_LDADD = \
 	$(GLIB_LIBS) \
 	$(PANGO_LIBS) \
 	$(XML_LIBS) \
-	$(X_LIBS)
+	$(X_LIBS) \
+	$(XEXT_LIBS)
 obrender_rendertest_SOURCES = obrender/test.c
 
 obrender_libobrender_la_CPPFLAGS = \
@@ -86,6 +87,7 @@ obrender_libobrender_la_LDFLAGS = \
 obrender_libobrender_la_LIBADD = \
 	obt/libobt.la \
 	$(X_LIBS) \
+	$(XEXT_LIBS) \
 	$(PANGO_LIBS) \
 	$(GLIB_LIBS) \
 	$(IMLIB2_LIBS) \
@@ -134,6 +136,7 @@ obt_libobt_la_LDFLAGS = \
 	-version-info $(OBT_CURRENT):$(OBT_REVISION):$(OBT_AGE)
 obt_libobt_la_LIBADD = \
 	$(X_LIBS) \
+	$(XEXT_LIBS) \
 	$(XINERAMA_LIBS) \
 	$(XKB_LIBS) \
 	$(XRANDR_LIBS) \
@@ -185,6 +188,7 @@ openbox_openbox_LDADD = \
 	$(SM_LIBS) \
 	$(GLIB_LIBS) \
 	$(X_LIBS) \
+	$(XEXT_LIBS) \
 	$(XCURSOR_LIBS) \
 	$(LIBSN_LIBS) \
 	$(XML_LIBS) \
@@ -335,7 +339,8 @@ obt_obt_unittests_SOURCES = \
 tools_gnome_panel_control_gnome_panel_control_CPPFLAGS = \
 	$(X_CFLAGS)
 tools_gnome_panel_control_gnome_panel_control_LDADD = \
-	$(X_LIBS)
+	$(X_LIBS) \
+	$(XEXT_LIBS)
 tools_gnome_panel_control_gnome_panel_control_SOURCES = \
 	tools/gnome-panel-control/gnome-panel-control.c
 
@@ -346,7 +351,8 @@ tools_obxprop_obxprop_CPPFLAGS = \
 	$(X_CFLAGS)
 tools_obxprop_obxprop_LDADD = \
 	$(GLIB_LIBS) \
-	$(X_LIBS)
+	$(X_LIBS) \
+	$(XEXT_LIBS)
 tools_obxprop_obxprop_SOURCES = \
 	tools/obxprop/obxprop.c
 
@@ -359,6 +365,7 @@ tools_gdm_control_gdm_control_CPPFLAGS = \
 tools_gdm_control_gdm_control_LDADD = \
 	$(XAUTH_LIBS) \
 	$(X_LIBS) \
+	$(XEXT_LIBS) \
 	$(GLIB_LIBS)
 tools_gdm_control_gdm_control_SOURCES = \
 	tools/gdm-control/gdm-control.c
