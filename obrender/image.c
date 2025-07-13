@@ -31,6 +31,8 @@
 
 #include <glib.h>
 
+#include <immintrin.h>
+
 #define FRACTION        12
 #define FLOOR(i)        ((i) & (~0UL << FRACTION))
 #define AVERAGE(a, b)   (((((a) ^ (b)) & 0xfefefefeL) >> 1) + ((a) & (b)))
@@ -819,6 +821,11 @@ void DrawRGBA(RrPixel32 *target, gint target_w, gint target_h,
     RrPixel32 *dest;
     gint col, num_pixels;
     gint dw, dh;
+#ifdef __SSE2__
+    __m128i alpha_mask = _mm_set1_epi32(0xFF000000);
+    __m128i red_mask = _mm_set1_epi32(0x00FF0000);
+    __m128i green_mask = _mm_set1_epi32(0x0000FF00);
+#endif
 
     g_assert(source_w <= area->width && source_h <= area->height);
     g_assert(area->x + area->width <= target_w);
@@ -838,27 +845,75 @@ void DrawRGBA(RrPixel32 *target, gint target_w, gint target_h,
     num_pixels = dw * dh;
     dest = target + area->x + (area->width - dw) / 2 +
         (target_w * (area->y + (area->height - dh) / 2));
-    while (num_pixels-- > 0) {
+#ifdef __SSE2__
+    while (num_pixels > 0) {
+        int pixels_to_process = MIN(num_pixels, 4);
+        __m128i src_pixels = _mm_loadu_si128((__m128i*)source);
+        __m128i dest_pixels = _mm_loadu_si128((__m128i*)dest);
+
+        // Extract alpha, red, green, blue components from source pixels
+        __m128i src_a = _mm_srli_epi32(_mm_and_si128(src_pixels, alpha_mask), RrDefaultAlphaOffset);
+        __m128i src_r = _mm_srli_epi32(_mm_and_si128(src_pixels, red_mask), RrDefaultRedOffset);
+        __m128i src_g = _mm_srli_epi32(_mm_and_si128(src_pixels, green_mask), RrDefaultGreenOffset);
+        __m128i src_b = _mm_and_si128(src_pixels, _mm_set1_epi32(0x000000FF)); // Blue mask
+
+        // Apply global alpha to source alpha
+        __m128i global_alpha_vec = _mm_set1_epi32(alpha);
+        src_a = _mm_mullo_epi32(src_a, global_alpha_vec);
+        src_a = _mm_srli_epi32(src_a, 8);
+
+        // Extract background color components
+        __m128i bgr_r = _mm_srli_epi32(_mm_and_si128(dest_pixels, red_mask), RrDefaultRedOffset);
+        __m128i bgr_g = _mm_srli_epi32(_mm_and_si128(dest_pixels, green_mask), RrDefaultGreenOffset);
+        __m128i bgr_b = _mm_and_si128(dest_pixels, _mm_set1_epi32(0x000000FF)); // Blue mask
+
+        // Calculate blended components: bgr + (((src - bgr) * a) >> 8)
+        __m128i diff_r = _mm_sub_epi32(src_r, bgr_r);
+        __m128i diff_g = _mm_sub_epi32(src_g, bgr_g);
+        __m128i diff_b = _mm_sub_epi32(src_b, bgr_b);
+
+        __m128i blended_r = _mm_add_epi32(bgr_r, _mm_srli_epi32(_mm_mullo_epi32(diff_r, src_a), 8));
+        __m128i blended_g = _mm_add_epi32(bgr_g, _mm_srli_epi32(_mm_mullo_epi32(diff_g, src_a), 8));
+        __m128i blended_b = _mm_add_epi32(bgr_b, _mm_srli_epi32(_mm_mullo_epi32(diff_b, src_a), 8));
+
+        // Recombine into final pixel format (assuming RrDefaultAlphaOffset is 24, Red 16, Green 8, Blue 0)
+        __m128i final_pixels = _mm_or_si128(
+                                _mm_or_si128(
+                                    _mm_slli_epi32(blended_r, RrDefaultRedOffset),
+                                    _mm_slli_epi32(blended_g, RrDefaultGreenOffset)),
+                                _mm_slli_epi32(blended_b, RrDefaultBlueOffset));
+
+        _mm_storeu_si128((__m128i*)dest, final_pixels);
+
+        source += pixels_to_process;
+        dest += pixels_to_process;
+        num_pixels -= pixels_to_process;
+
+        col += pixels_to_process;
+        if (col >= dw) {
+            col = 0;
+            dest += target_w - dw;
+            source += target_w - dw; // Adjust source pointer for next row
+        }
+    }
+#else
+    for (; num_pixels > 0; --num_pixels) {
         guchar a, r, g, b, bgr, bgg, bgb;
 
-        /* apply the rgba's opacity as well */
         a = ((*source >> RrDefaultAlphaOffset) * alpha) >> 8;
-        r = *source >> RrDefaultRedOffset;
-        g = *source >> RrDefaultGreenOffset;
-        b = *source >> RrDefaultBlueOffset;
+        r = (*source >> RrDefaultRedOffset) & 0xFF;
+        g = (*source >> RrDefaultGreenOffset) & 0xFF;
+        b = (*source >> RrDefaultBlueOffset) & 0xFF;
 
-        /* background color */
-        bgr = *dest >> RrDefaultRedOffset;
-        bgg = *dest >> RrDefaultGreenOffset;
-        bgb = *dest >> RrDefaultBlueOffset;
+        bgr = (*dest >> RrDefaultRedOffset) & 0xFF;
+        bgg = (*dest >> RrDefaultGreenOffset) & 0xFF;
+        bgb = (*dest >> RrDefaultBlueOffset) & 0xFF;
 
         r = bgr + (((r - bgr) * a) >> 8);
         g = bgg + (((g - bgg) * a) >> 8);
         b = bgb + (((b - bgb) * a) >> 8);
 
-        *dest = ((r << RrDefaultRedOffset) |
-                 (g << RrDefaultGreenOffset) |
-                 (b << RrDefaultBlueOffset));
+        *dest = ((r << RrDefaultRedOffset) | (g << RrDefaultGreenOffset) | (b << RrDefaultBlueOffset));
 
         dest++;
         source++;
@@ -866,8 +921,10 @@ void DrawRGBA(RrPixel32 *target, gint target_w, gint target_h,
         if (++col >= dw) {
             col = 0;
             dest += target_w - dw;
+            source += target_w - dw;
         }
     }
+#endif
 }
 
 /*! Draw an RGBA texture into a target pixel buffer. */
