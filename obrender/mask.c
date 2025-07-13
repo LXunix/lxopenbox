@@ -21,6 +21,8 @@
 #include "color.h"
 #include "mask.h"
 
+#include <immintrin.h>
+
 RrPixmapMask *RrPixmapMaskNew(const RrInstance *inst,
                               gint w, gint h, const gchar *data)
 {
@@ -74,8 +76,24 @@ RrPixmapMask *RrPixmapMaskCopy(const RrPixmapMask *src)
     m->inst = src->inst;
     m->width = src->width;
     m->height = src->height;
-    /* round up to nearest byte */
-    m->data = g_memdup2(src->data, (src->width + 7) / 8 * src->height);
+
+    size_t data_size = (src->width + 7) / 8 * src->height;
+#ifdef __SSE2__
+    // Align data_size to 16 bytes for SSE2 optimization
+    size_t aligned_data_size = (data_size + 15) & ~15;
+    m->data = g_malloc(aligned_data_size);
+    // Use SSE2 to copy data if available and data size is sufficient
+    if (data_size >= 16) {
+        __m128i *dest = (__m128i *)m->data;
+        const __m128i *src_ptr = (const __m128i *)src->data;
+        for (size_t i = 0; i < data_size / 16; ++i) {
+            _mm_storeu_si128(dest + i, _mm_loadu_si128(src_ptr + i));
+        }
+    }
+    memcpy((char *)m->data + (data_size / 16) * 16, (const char *)src->data + (data_size / 16) * 16, data_size % 16);
+#else
+    m->data = g_memdup2(src->data, data_size);
+#endif
     m->mask = XCreateBitmapFromData(RrDisplay(m->inst), RrRootWindow(m->inst),
                                     m->data, m->width, m->height);
     return m;
