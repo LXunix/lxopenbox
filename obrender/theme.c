@@ -31,6 +31,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
+#ifdef __SSSE3__
+#include <tmmintrin.h>
+#endif
+
 struct fallbacks {
     RrAppearance *focused_disabled;
     RrAppearance *unfocused_disabled;
@@ -1443,23 +1451,33 @@ static void set_default_appearance(RrAppearance *a)
    an RrTextureRGBA. */
 static RrPixel32* read_c_image(gint width, gint height, const guint8 *data)
 {
-    RrPixel32 *im, *p;
+    RrPixel32 *im;
     gint i;
 
-    p = im = g_memdup2(data, width * height * sizeof(RrPixel32));
+    im = g_memdup2(data, width * height * sizeof(RrPixel32));
 
-    for (i = 0; i < width * height; ++i) {
-        guchar a = ((*p >> 24) & 0xff);
-        guchar b = ((*p >> 16) & 0xff);
-        guchar g = ((*p >>  8) & 0xff);
-        guchar r = ((*p >>  0) & 0xff);
-
-        *p = ((r << RrDefaultRedOffset) +
-              (g << RrDefaultGreenOffset) +
-              (b << RrDefaultBlueOffset) +
-              (a << RrDefaultAlphaOffset));
-        p++;
+    /* Use SSE2 and SSSE3 for optimization if available */
+#if defined(__SSE2__) && defined(__SSSE3__)
+    __m128i *p_sse = (__m128i *)im;
+    __m128i shuffle_mask = _mm_set_epi8(
+        0x0F, 0x0E, 0x0D, 0x0C, // ABGR for pixel 3
+        0x0B, 0x0A, 0x09, 0x08, // ABGR for pixel 2
+        0x07, 0x06, 0x05, 0x04, // ABGR for pixel 1
+        0x03, 0x02, 0x01, 0x00  // ABGR for pixel 0
+    );
+    for (i = 0; i < (width * height) / 4; ++i) {
+        __m128i pixels = _mm_loadu_si128(p_sse);
+        pixels = _mm_shuffle_epi8(pixels, shuffle_mask);
+        _mm_storeu_si128(p_sse, pixels);
+        p_sse++;
     }
+#else
+    for (i = 0; i < width * height; ++i)
+        im[i] = ((im[i] >> 0 & 0xff) << RrDefaultRedOffset) |
+                ((im[i] >> 8 & 0xff) << RrDefaultGreenOffset) |
+                ((im[i] >> 16 & 0xff) << RrDefaultBlueOffset) |
+                ((im[i] >> 24 & 0xff) << RrDefaultAlphaOffset);
+#endif
 
     return im;
 }
