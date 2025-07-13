@@ -5,7 +5,7 @@ Maintainer: Herman Semenov <GermanAizek@tutamail.com>
 Build-Depends: debhelper (>= 5), coreutils, sed, autotools-dev, gcc, automake1.9, autoconf, libtool, pkg-config, libpango1.0-dev, libglib2.0-dev, libxml2-dev, libxcursor-dev, libstartup-notification0-dev, xlibs-dev, libxinerama-dev, libxft2-dev
 Version: 4.0.0
 Package: lxopenbox
-Architecture: i386
+Architecture: amd64
 Depends: libc6, libglib2.0-0, libxcursor1, libx11-6, libpango1.0-0, libice6, libsm6, libxext6, libxinerama1, libxml2, libstartup-notification0, libxft2
 Recommends: obconf, ttf-bitstream-vera
 Suggests: menu, x-display-manager, ksmserver | gnome-session, kdm | gdm

@@ -16,6 +16,7 @@ Copyright:
 Copyright for the Debian-related build-scripts:
 
  Copyright (C) 2007      Dana Jansens <danakj@orodu.net>
+ Copyright (C) 2025      Herman Semenov <GermanAizek@tutamail.com>
 
  These scripts are placed under the BSD license, which may be found in
  the file `/usr/share/common-licenses/BSD' on most Debian systems.
