@@ -3,6 +3,7 @@
    openbox.c for the Openbox window manager
    Copyright (c) 2006        Mikael Magnusson
    Copyright (c) 2003-2007   Dana Jansens
+   Copyright (c) 2025        Herman Semenov <GermanAizek@tutamail.com>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -519,6 +520,8 @@ static void signal_handler(gint signal, gpointer data)
 static void print_version(void)
 {
     g_print("Openbox %s\n", PACKAGE_VERSION);
+    g_print(_("Copyright (c)"));
+    g_print(" 2025   Herman Semenov <GermanAizek@tutamail.com>\n");
     g_print(_("Copyright (c)"));
     g_print(" 2004   Mikael Magnusson\n");
     g_print(_("Copyright (c)"));

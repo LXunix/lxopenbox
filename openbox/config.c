@@ -3,6 +3,7 @@
    config.c for the Openbox window manager
    Copyright (c) 2006        Mikael Magnusson
    Copyright (c) 2003-2007   Dana Jansens
+   Copyright (c) 2025        Herman Semenov <GermanAizek@tutamail.com>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

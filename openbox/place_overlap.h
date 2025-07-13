@@ -2,6 +2,7 @@
 
    overlap.h for the Openbox window manager
    Copyright (c) 2011        Ian Zimmerman
+   Copyright (c) 2025        Herman Semenov <GermanAizek@tutamail.com>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
