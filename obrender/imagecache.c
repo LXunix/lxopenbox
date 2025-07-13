@@ -20,6 +20,8 @@
 #include "imagecache.h"
 #include "image.h"
 
+#include <immintrin.h>
+
 static gboolean RrImagePicEqual(const RrImagePic *p1,
                                 const RrImagePic *p2);
 
