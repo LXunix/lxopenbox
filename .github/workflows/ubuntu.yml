@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,13 +20,14 @@ jobs:
       run: ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib64
     - name: make only SSE2/SSE4.1/SSE4.2 support
       run: make CFLAGS="-msse2 -msse4.1 -msse4.2" CXXFLAGS="-msse2 -msse4.1 -msse4.2"
+    - name: dpkg-deb build lxopenbox
+      run: dpkg-deb --build . lxopenbox-sse4.2.deb
 
     - name: Upload a Build Artifact for Ubuntu Latest
       uses: actions/upload-artifact@v4.6.2
       with:
-        # Artifact name
-        name: dev-lxopenbox-release-ubuntu-latest
+        name: dev-lxopenbox-sse4.2-release-ubuntu-latest
         # A file, directory or wildcard pattern that describes what to upload
-#        path: 
+        path: ./lxopenbox-sse4.2.deb
         # The desired behavior if no files are found using the provided path.
               
