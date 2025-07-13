@@ -1,5 +1,5 @@
 AC_PREREQ([2.54])
-AC_INIT([openbox], [3.7], [http://bugzilla.icculus.org])
+AC_INIT([lxopenbox], [4.0], [http://bugzilla.icculus.org])
 AC_CONFIG_SRCDIR([openbox/openbox.c])
 
 AM_INIT_AUTOMAKE([foreign])

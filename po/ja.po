@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Openbox 3.4.7\n"
 "Report-Msgid-Bugs-To: http://bugzilla.icculus.org\n"
-"POT-Creation-Date: 2014-11-05 16:51+0100\n"
+"POT-Creation-Date: 2025-07-13 20:58+0300\n"
 "PO-Revision-Date: 2008-03-04 16:32+0100\n"
 "Last-Translator: Ryoichiro Suzuki <ryoichiro.suzuki@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: openbox/actions.c:234
+#: openbox/actions.c:235
 #, c-format
 msgid "Invalid action \"%s\" requested. No such action exists."
 msgstr ""
@@ -41,7 +41,7 @@ msgstr "実行する"
 msgid "Failed to convert the path \"%s\" from utf8"
 msgstr "パス\"%s\"を utf8 から変換するのに失敗しました。"
 
-#: openbox/actions/exit.c:69 openbox/client.c:3665
+#: openbox/actions/exit.c:69 openbox/client.c:3733
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -65,19 +65,19 @@ msgstr "Openbox を終了してもよろしいですか？"
 msgid "Exit Openbox"
 msgstr "Openbox を終了する"
 
-#: openbox/client.c:2115
+#: openbox/client.c:2165
 msgid "Unnamed Window"
 msgstr "名称未設定"
 
-#: openbox/client.c:2129 openbox/client.c:2160
+#: openbox/client.c:2180 openbox/client.c:2214
 msgid "Killing..."
 msgstr "強制終了中..."
 
-#: openbox/client.c:2131 openbox/client.c:2162
+#: openbox/client.c:2182 openbox/client.c:2216
 msgid "Not Responding"
 msgstr "応答なし"
 
-#: openbox/client.c:3654
+#: openbox/client.c:3722
 #, c-format
 msgid ""
 "The window \"%s\" does not seem to be responding.  Do you want to force it "
@@ -85,189 +85,189 @@ msgid ""
 msgstr ""
 "ウィンドウ \"%s\" は応答していないようです。%s 信号を送り強制終了しますか？"
 
-#: openbox/client.c:3656
+#: openbox/client.c:3724
 msgid "End Process"
 msgstr "プロセスを終了する"
 
-#: openbox/client.c:3660
+#: openbox/client.c:3728
 #, c-format
 msgid ""
 "The window \"%s\" does not seem to be responding.  Do you want to disconnect "
 "it from the X server?"
 msgstr "ウィンドウ \"%s\" は応答していないようです。Xサーバから切断しますか？"
 
-#: openbox/client.c:3662
+#: openbox/client.c:3730
 msgid "Disconnect"
 msgstr "切断する"
 
-#: openbox/client_list_combined_menu.c:93 openbox/client_list_menu.c:90
+#: openbox/client_list_combined_menu.c:103 openbox/client_list_menu.c:100
 msgid "Go there..."
 msgstr "移動する..."
 
-#: openbox/client_list_combined_menu.c:100
+#: openbox/client_list_combined_menu.c:110
 msgid "Manage desktops"
 msgstr "デスクトップを管理"
 
-#: openbox/client_list_combined_menu.c:101 openbox/client_list_menu.c:166
+#: openbox/client_list_combined_menu.c:111 openbox/client_list_menu.c:176
 msgid "_Add new desktop"
 msgstr "新しくデスクトップを追加(_A)"
 
-#: openbox/client_list_combined_menu.c:102 openbox/client_list_menu.c:167
+#: openbox/client_list_combined_menu.c:112 openbox/client_list_menu.c:177
 msgid "_Remove last desktop"
 msgstr "最後のデスクトップを削除(_R)"
 
-#: openbox/client_list_combined_menu.c:157
+#: openbox/client_list_combined_menu.c:167
 msgid "Windows"
 msgstr "ウィンドウ"
 
-#: openbox/client_list_menu.c:214
+#: openbox/client_list_menu.c:224
 msgid "Desktops"
 msgstr "デスクトップ"
 
-#: openbox/client_menu.c:259
+#: openbox/client_menu.c:261
 msgid "All desktops"
 msgstr "すべてのデスクトップ(_A)"
 
-#: openbox/client_menu.c:371
+#: openbox/client_menu.c:374
 msgid "_Layer"
 msgstr "階層(_L)"
 
-#: openbox/client_menu.c:376
+#: openbox/client_menu.c:379
 msgid "Always on _top"
 msgstr "常に最上層にする(_T)"
 
-#: openbox/client_menu.c:377
+#: openbox/client_menu.c:380
 msgid "_Normal"
 msgstr "通常(_N)"
 
-#: openbox/client_menu.c:378
+#: openbox/client_menu.c:381
 msgid "Always on _bottom"
 msgstr "常に最下層にする(_B)"
 
-#: openbox/client_menu.c:380
+#: openbox/client_menu.c:383
 msgid "_Send to desktop"
 msgstr "デスクトップに送る(_S)"
 
-#: openbox/client_menu.c:384
+#: openbox/client_menu.c:387
 msgid "Client menu"
 msgstr "クライアントメニュー"
 
-#: openbox/client_menu.c:394
+#: openbox/client_menu.c:397
 msgid "R_estore"
 msgstr "復元(_E)"
 
-#: openbox/client_menu.c:398
+#: openbox/client_menu.c:401
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: openbox/client_menu.c:400
+#: openbox/client_menu.c:403
 msgid "Resi_ze"
 msgstr "サイズの変更(_Z)"
 
-#: openbox/client_menu.c:402
+#: openbox/client_menu.c:405
 msgid "Ico_nify"
 msgstr "最小化(_N)"
 
-#: openbox/client_menu.c:406
+#: openbox/client_menu.c:409
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#: openbox/client_menu.c:410
+#: openbox/client_menu.c:413
 msgid "_Roll up/down"
 msgstr "巻き上げ/展開(_R)"
 
-#: openbox/client_menu.c:414
+#: openbox/client_menu.c:417
 msgid "Un/_Decorate"
 msgstr "非/装飾(_D)"
 
-#: openbox/client_menu.c:418
+#: openbox/client_menu.c:421
 msgid "_Close"
 msgstr "閉じる(_C)"
 
-#: openbox/config.c:563
+#: openbox/config.c:573
 #, c-format
 msgid "Invalid context \"%s\" in mouse binding"
 msgstr "マウス割り当てに於いて不正なコンテクスト \"%s\""
 
-#: openbox/config.c:931
+#: openbox/config.c:966
 #, c-format
 msgid "Invalid button \"%s\" specified in config file"
 msgstr "不正なボタン\"%s\"が設定ファイルで指定されています。"
 
-#: openbox/config.c:956
+#: openbox/config.c:991
 msgid ""
 "Openbox was compiled without image loading support. Icons in menus will not "
 "be loaded."
 msgstr ""
 
-#: openbox/debug.c:57
+#: openbox/debug.c:58
 #, c-format
 msgid "Unable to make directory '%s': %s"
 msgstr "ディレクトリ'%s'を作れません: %s"
 
-#: openbox/debug.c:195 openbox/openbox.c:377
+#: openbox/debug.c:196 openbox/openbox.c:379
 msgid "Close"
 msgstr "閉じる"
 
-#: openbox/keyboard.c:161
+#: openbox/keyboard.c:164
 msgid "Conflict with key binding in config file"
 msgstr "設定ファイルにキー割り当ての衝突があります。"
 
-#: openbox/menu.c:103 openbox/menu.c:115
+#: openbox/menu.c:104 openbox/menu.c:116
 #, c-format
 msgid "Unable to find a valid menu file \"%s\""
 msgstr "正当なメニューファイル\"%s\"を見つけることができません。"
 
-#: openbox/menu.c:168
+#: openbox/menu.c:169
 #, c-format
 msgid "Failed to execute command for pipe-menu \"%s\": %s"
 msgstr "パイプメニューの為のコマンド\"%s\"の実行に失敗しました: %s"
 
-#: openbox/menu.c:182
+#: openbox/menu.c:183
 #, c-format
 msgid "Invalid output from pipe-menu \"%s\""
 msgstr "パイプメニュー\"%s\"からの不正な出力です。"
 
-#: openbox/menu.c:195
+#: openbox/menu.c:196
 #, c-format
 msgid "Attempted to access menu \"%s\" but it does not exist"
 msgstr "メニュー\"%s\"へのアクセスを試みましたが、それは存在しません。"
 
-#: openbox/menu.c:411 openbox/menu.c:412
+#: openbox/menu.c:412 openbox/menu.c:413
 msgid "More..."
 msgstr "もっと..."
 
-#: openbox/mouse.c:382
+#: openbox/mouse.c:386
 #, c-format
 msgid "Invalid button \"%s\" in mouse binding"
 msgstr "マウス割り当てに於いて不正なボタン \"%s\""
 
-#: openbox/openbox.c:137
+#: openbox/openbox.c:138
 #, c-format
 msgid "Unable to change to home directory \"%s\": %s"
 msgstr "ホームディレクトリ\"%s\"に移動できません: %s"
 
-#: openbox/openbox.c:152
+#: openbox/openbox.c:153
 msgid "Failed to open the display from the DISPLAY environment variable."
 msgstr "環境変数 DISPLAY からディスプレイを開くのに失敗しました。"
 
-#: openbox/openbox.c:182
+#: openbox/openbox.c:183
 msgid "Failed to initialize the obrender library."
 msgstr "obrender ライブラリの初期化に失敗しました。"
 
-#: openbox/openbox.c:193
+#: openbox/openbox.c:194
 msgid "X server does not support locale."
 msgstr "Xサーバはロケールをサポートしていません。"
 
-#: openbox/openbox.c:195
+#: openbox/openbox.c:196
 msgid "Cannot set locale modifiers for the X server."
 msgstr "Xサーバの為のロケール修飾子を設定できません。"
 
-#: openbox/openbox.c:254
+#: openbox/openbox.c:255
 msgid "Unable to find a valid config file, using some simple defaults"
 msgstr "正当な設定ファイルを見つけられません。単純な初期設定を使います。"
 
-#: openbox/openbox.c:270
+#: openbox/openbox.c:271
 #, c-format
 msgid ""
 "One or more XML syntax errors were found while parsing the Openbox "
@@ -278,28 +278,28 @@ msgstr ""
 "は標準出力を見て下さい。最後に見つかったエラーは\"%s\"ファイルの%d 行目で、説"
 "明はこうです：%s"
 
-#: openbox/openbox.c:295
+#: openbox/openbox.c:297
 msgid "Unable to load a theme."
 msgstr "テーマを読み込めません。"
 
-#: openbox/openbox.c:376
+#: openbox/openbox.c:378
 msgid "Openbox Syntax Error"
 msgstr "Openbox 構文エラー"
 
-#: openbox/openbox.c:442
+#: openbox/openbox.c:444
 #, c-format
 msgid "Restart failed to execute new executable \"%s\": %s"
 msgstr "再起動の際新しい実行ファイル\"%s\"の実行に失敗しました: %s"
 
-#: openbox/openbox.c:521 openbox/openbox.c:523
+#: openbox/openbox.c:523 openbox/openbox.c:525 openbox/openbox.c:527
 msgid "Copyright (c)"
 msgstr "著作権 (c)"
 
-#: openbox/openbox.c:532
+#: openbox/openbox.c:536
 msgid "Syntax: openbox [options]\n"
 msgstr "用法: openbox [オプション]\n"
 
-#: openbox/openbox.c:533
+#: openbox/openbox.c:537
 msgid ""
 "\n"
 "Options:\n"
@@ -307,30 +307,30 @@ msgstr ""
 "\n"
 "オプション:\n"
 
-#: openbox/openbox.c:534
+#: openbox/openbox.c:538
 msgid "  --help              Display this help and exit\n"
 msgstr "  --help              この使い方を表示して終了します\n"
 
-#: openbox/openbox.c:535
+#: openbox/openbox.c:539
 msgid "  --version           Display the version and exit\n"
 msgstr "  --version           バージョンを表示して終了します\n"
 
-#: openbox/openbox.c:536
+#: openbox/openbox.c:540
 msgid "  --replace           Replace the currently running window manager\n"
 msgstr "  --replace           現在実行中のウィンドウマネージャを置き換えます\n"
 
 #. TRANSLATORS: if you translate "FILE" here, make sure to keep the "Specify..."
 #. aligned still, if you have to, make a new line with \n and 22 spaces. It's
 #. fine to leave it as FILE though.
-#: openbox/openbox.c:540
+#: openbox/openbox.c:544
 msgid "  --config-file FILE  Specify the path to the config file to use\n"
 msgstr "  --config-file FILE  使用する設定ファイルのパスを指定します\n"
 
-#: openbox/openbox.c:541
+#: openbox/openbox.c:545
 msgid "  --sm-disable        Disable connection to the session manager\n"
 msgstr "  --sm-disable        セッションマネージャへの接続を止めます\n"
 
-#: openbox/openbox.c:542
+#: openbox/openbox.c:546
 msgid ""
 "\n"
 "Passing messages to a running Openbox instance:\n"
@@ -338,19 +338,19 @@ msgstr ""
 "\n"
 "実行中の Openbox に命令を送ります:\n"
 
-#: openbox/openbox.c:543
+#: openbox/openbox.c:547
 msgid "  --reconfigure       Reload Openbox's configuration\n"
 msgstr "  --reconfigure       Openbox の設定を再読み込みします\n"
 
-#: openbox/openbox.c:544
+#: openbox/openbox.c:548
 msgid "  --restart           Restart Openbox\n"
 msgstr "  --restart           Openbox を再起動します\n"
 
-#: openbox/openbox.c:545
+#: openbox/openbox.c:549
 msgid "  --exit              Exit Openbox\n"
 msgstr "  --exit              Openbox を終了します\n"
 
-#: openbox/openbox.c:546
+#: openbox/openbox.c:550
 msgid ""
 "\n"
 "Debugging options:\n"
@@ -358,33 +358,33 @@ msgstr ""
 "\n"
 "デバッグオプション:\n"
 
-#: openbox/openbox.c:547
+#: openbox/openbox.c:551
 msgid "  --sync              Run in synchronous mode\n"
 msgstr "  --sync              同期モードで実行します\n"
 
-#: openbox/openbox.c:548
+#: openbox/openbox.c:552
 msgid "  --startup CMD       Run CMD after starting\n"
 msgstr ""
 
-#: openbox/openbox.c:549
+#: openbox/openbox.c:553
 msgid "  --debug             Display debugging output\n"
 msgstr "  --debug             デバッグ情報を表示します\n"
 
-#: openbox/openbox.c:550
+#: openbox/openbox.c:554
 msgid "  --debug-focus       Display debugging output for focus handling\n"
 msgstr ""
 "  --debug-focus       フォーカスの扱いに関するデバッグ情報を表示します\n"
 
-#: openbox/openbox.c:551
+#: openbox/openbox.c:555
 msgid "  --debug-session     Display debugging output for session management\n"
 msgstr ""
 "  --debug-session     セッションの扱いに関するデバッグ情報を表示します\n"
 
-#: openbox/openbox.c:552
+#: openbox/openbox.c:556
 msgid "  --debug-xinerama    Split the display into fake xinerama screens\n"
 msgstr "  --debug-xinerama    偽の xinerama スクリーンに分割表示します\n"
 
-#: openbox/openbox.c:553
+#: openbox/openbox.c:557
 #, c-format
 msgid ""
 "\n"
@@ -393,12 +393,12 @@ msgstr ""
 "\n"
 "バグは %s 宛へ報告して下さい\n"
 
-#: openbox/openbox.c:636 openbox/openbox.c:670
+#: openbox/openbox.c:640 openbox/openbox.c:674
 #, c-format
 msgid "%s requires an argument\n"
 msgstr "%s requires an argument\n"
 
-#: openbox/openbox.c:713
+#: openbox/openbox.c:717
 #, c-format
 msgid "Invalid command line argument \"%s\"\n"
 msgstr "不正なコマンドライン引数 \"%s\"\n"
@@ -422,7 +422,7 @@ msgstr "スクリーン%dのWMが終了しません。"
 #. arguments, you can use %1$d for the first one and %2$d for the
 #. second one. For example,
 #. "The current session has %2$d desktops, but Openbox is configured for %1$d ..."
-#: openbox/screen.c:421
+#: openbox/screen.c:404
 #, c-format
 msgid ""
 "Openbox is configured for %d desktop, but the current session has %d.  "
@@ -434,36 +434,36 @@ msgstr[0] ""
 "Openbox は %d 個のデスクトップを設定されましたが, 現在のセッションは %d 個"
 "持っています。 Openbox の設定を無視します。"
 
-#: openbox/screen.c:1204
+#: openbox/screen.c:1213
 #, c-format
 msgid "desktop %i"
 msgstr "デスクトップ%i"
 
-#: openbox/startupnotify.c:241
+#: openbox/startupnotify.c:242
 #, c-format
 msgid "Running %s"
 msgstr "起動中 %s"
 
-#: openbox/translate.c:59
+#: openbox/translate.c:60
 #, c-format
 msgid "Invalid modifier key \"%s\" in key/mouse binding"
 msgstr "キー/マウス割り当ての中の不正な修飾キー \"%s\""
 
-#: openbox/translate.c:138
+#: openbox/translate.c:139
 #, c-format
 msgid "Invalid key code \"%s\" in key binding"
 msgstr "キー割り当ての中の不正なキーコード \"%s\""
 
-#: openbox/translate.c:145
+#: openbox/translate.c:146
 #, c-format
 msgid "Invalid key name \"%s\" in key binding"
 msgstr "キー割り当ての中の不正なキー名称 \"%s\""
 
-#: openbox/translate.c:151
+#: openbox/translate.c:152
 #, c-format
 msgid "Requested key \"%s\" does not exist on the display"
 msgstr "要求されたキー\"%s\"はそのディスプレイに存在しません。"
 
-#: openbox/prompt.c:154
+#: openbox/prompt.c:155
 msgid "OK"
 msgstr "OK"
