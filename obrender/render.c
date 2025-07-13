@@ -35,6 +35,10 @@
 #  include <stdlib.h>
 #endif
 
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
 static void pixel_data_to_pixmap(RrAppearance *l,
                                  gint x, gint y, gint w, gint h);
 
@@ -553,6 +557,21 @@ gboolean RrPixmapToRGBA(const RrInstance *inst,
     RrIncreaseDepth(inst, *data, xi);
 
     if (mask) {
+#ifdef __SSE2__
+        /* Apply transparency from the mask using SSE2 */
+        __m128i alpha_mask = _mm_set1_epi32(~(0xff << RrDefaultAlphaOffset));
+        for (y = 0; y < ph; ++y) {
+            di = y * xm->bytes_per_line;
+            for (x = 0; x < pw; x += 16) { /* Process 16 pixels at a time for mask bits */
+                unsigned char mask_byte = xm->data[di + x / 8];
+                for (i = 0; i < 16 && (x + i) < pw; ++i) {
+                    if (!((mask_byte >> (i % 8)) & 0x1)) {
+                        (*data)[y * pw + x + i] = _mm_cvtsi128_si32(_mm_and_si128(_mm_cvtsi32_si128((*data)[y * pw + x + i]), alpha_mask));
+                    }
+                }
+            }
+        }
+#else
         /* apply transparency from the mask */
         di = 0;
         for (i = 0, y = 0; y < ph; ++y) {
@@ -562,8 +581,8 @@ gboolean RrPixmapToRGBA(const RrInstance *inst,
             }
             di += xm->bytes_per_line;
         }
+#endif
     }
-
     *w = pw;
     *h = ph;
 
