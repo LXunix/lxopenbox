@@ -118,6 +118,10 @@ if test "$DIRNAME" = "no"; then
   AC_MSG_ERROR([The program "dirname" is not available. This program is required to build Openbox.])
 fi
 
+PKG_CHECK_MODULES([XEXT], [xext >= 1.3.0])
+AC_SUBST(XEXT_CFLAGS)
+AC_SUBST(XEXT_LIBS)
+
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.14.0])
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
