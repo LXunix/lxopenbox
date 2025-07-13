@@ -19,6 +19,10 @@
 #include "obt/xqueue.h"
 #include "obt/display.h"
 
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
 #define MINSZ 16
 
 static XEvent *q = NULL;
@@ -38,27 +42,51 @@ static inline void shrink(void) {
         }
 
         /* all in the shinking part, move it to pos 0 */
-        else if (qstart >= newsz && qend >= newsz) {
+        else if (qstart >= newsz && qend >= newsz) { /* all elements are in the upper half */
+#ifdef __SSE2__
+            for (i = 0; i + 1 < qnum; i += 2) {
+                _mm_storeu_si128((__m128i *)&q[i], _mm_loadu_si128((__m128i *)&q[qstart + i]));
+            }
+            if (i < qnum)
+                q[i] = q[qstart + i];
+#else
             for (i = 0; i < qnum; ++i)
                 q[i] = q[qstart+i];
+#endif
             qstart = 0;
             qend = qnum - 1;
         }
 
         /* it wraps around to 0 right now, move the part between newsz and qsz
            to be before newsz */
-        else if (qstart >= newsz) {
+        else if (qstart >= newsz) { /* the queue wraps around, and the start is in the upper half */
             const gulong n = qsz - qstart;
+
+#ifdef __SSE2__
+            for (i = 0; i + 1 < n; i += 2) {
+                _mm_storeu_si128((__m128i *)&q[newsz - n + i], _mm_loadu_si128((__m128i *)&q[qstart + i]));
+            }
+            if (i < n)
+                q[newsz - n + i] = q[qstart + i];
+#else
             for (i = 0; i < n; ++i)
                 q[newsz-n+i] = q[qstart+i];
+#endif
             qstart = newsz-n;
         }
-
         /* it needs to wrap around to 0, move the stuff after newsz to pos 0 */
-        else if (qend >= newsz) {
+        else if (qend >= newsz) { /* the queue wraps around, and the end is in the upper half */
             const gulong n = qend + 1 - newsz;
+#ifdef __SSE2__
+            for (i = 0; i + 1 < n; i += 2) {
+                _mm_storeu_si128((__m128i *)&q[i], _mm_loadu_si128((__m128i *)&q[newsz + i]));
+            }
+            if (i < n)
+                q[i] = q[newsz + i];
+#else
             for (i = 0; i < n; ++i)
                 q[i] = q[newsz+i];
+#endif
             qend = n - 1;
         }
 
@@ -77,8 +105,16 @@ static inline void grow(void) {
         g_assert(qnum > 0);
 
         if (qend < qstart) { /* it wraps around to 0 right now */
+#ifdef __SSE2__
+            for (i = 0; i + 1 <= qend; i += 2) {
+                _mm_storeu_si128((__m128i *)&q[qsz + i], _mm_loadu_si128((__m128i *)&q[i]));
+            }
+            if (i <= qend)
+                q[qsz + i] = q[i];
+#else
             for (i = 0; i <= qend; ++i)
                 q[qsz+i] = q[i];
+#endif
             qend = qsz + qend;
         }
 
