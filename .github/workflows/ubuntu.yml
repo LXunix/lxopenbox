@@ -18,8 +18,8 @@ jobs:
       run: ./bootstrap
     - name: configure
       run: ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib64
-    - name: make only SSE2/SSE4.1/SSE4.2 support
-      run: make CFLAGS="-msse2 -msse4.1 -msse4.2" CXXFLAGS="-msse2 -msse4.1 -msse4.2"
+    - name: make
+      run: make
     - name: dpkg-deb build lxopenbox
       run: dpkg-deb --build . lxopenbox-sse4.2.deb
 
