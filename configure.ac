@@ -259,6 +259,52 @@ X11_EXT_XINERAMA
 X11_EXT_SYNC
 X11_EXT_AUTH
 
+# Check for SSE2
+AC_MSG_CHECKING([for SSE2 support])
+SAVE_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -msse2"
+AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <emmintrin.h>]], [[__m128d a = _mm_setzero_pd();]])],
+    [AC_DEFINE([HAVE_SSE2], [1], [Define to 1 if SSE2 is available.])
+     SSE_CFLAGS="$SSE_CFLAGS -msse2"
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$SAVE_CFLAGS"
+
+# Check for SSE4.1
+AC_MSG_CHECKING([for SSE4.1 support])
+SAVE_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -msse4.1"
+AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <smmintrin.h>]], [[int a[] = {1,2,3,4}; int b = _mm_extract_epi32(_mm_loadu_si128((__m128i*)a), 0);]])],
+    [AC_DEFINE([HAVE_SSE4_1], [1], [Define to 1 if SSE4.1 is available.])
+     SSE_CFLAGS="$SSE_CFLAGS -msse4.1"
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$SAVE_CFLAGS"
+
+# Check for SSE4.2
+AC_MSG_CHECKING([for SSE4.2 support])
+SAVE_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -msse4.2"
+AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <nmmintrin.h>]], [[char* str1 = "test"; char* str2 = "text"; int res = _mm_cmpestri(_mm_loadu_si128((__m128i*)str1), 4, _mm_loadu_si128((__m128i*)str2), 4, _SIDD_UBYTE_OPS);]])],
+    [AC_DEFINE([HAVE_SSE4_2], [1], [Define to 1 if SSE4.2 is available.])
+     SSE_CFLAGS="$SSE_CFLAGS -msse4.2"
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$SAVE_CFLAGS"
+
+# Add collected SSE flags to CFLAGS if any were found
+AS_IF([test -n "$SSE_CFLAGS"], [
+    CFLAGS="$CFLAGS $SSE_CFLAGS"
+    AC_MSG_NOTICE([Adding SSE flags to CFLAGS: $SSE_CFLAGS])
+])
+AC_SUBST([CFLAGS])
+
 AC_CONFIG_FILES([
   Makefile
   m4/Makefile
