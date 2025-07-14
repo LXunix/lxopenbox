@@ -25,6 +25,10 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <string.h>
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
 
 void RrColorAllocateGC(RrColor *in)
 {
@@ -121,6 +125,102 @@ void RrColorFree(RrColor *c)
         }
     }
 }
+
+/* SSE2 optimized version of RrIncreaseDepth for 32-bit images */
+#ifdef __SSE2__
+static void RrIncreaseDepth_SSE2_32(const RrInstance *inst, RrPixel32 *data, XImage *im)
+{
+    gint y;
+    RrPixel32 *p32 = (RrPixel32 *)im->data;
+
+    const __m128i red_mask_sse = _mm_set1_epi32(0xff);
+    const __m128i green_mask_sse = _mm_set1_epi32(0xff);
+    const __m128i blue_mask_sse = _mm_set1_epi32(0xff);
+
+    const int red_offset = RrRedOffset(inst);
+    const int green_offset = RrGreenOffset(inst);
+    const int blue_offset = RrBlueOffset(inst);
+
+    const int default_red_offset = RrDefaultRedOffset;
+    const int default_green_offset = RrDefaultGreenOffset;
+    const int default_blue_offset = RrDefaultBlueOffset;
+    const int default_alpha_offset = RrDefaultAlphaOffset;
+
+    const __m128i alpha_val_sse = _mm_set1_epi32(0xff << default_alpha_offset);
+
+    for (y = 0; y < im->height; y++) {
+        int x = 0;
+        for (; x + 3 < im->width; x += 4) {
+            __m128i pixels = _mm_loadu_si128((__m128i *)(p32 + x));
+
+            // Extract R, G, B components
+            __m128i r_comp = _mm_and_si128(_mm_srli_epi32(pixels, red_offset), red_mask_sse);
+            __m128i g_comp = _mm_and_si128(_mm_srli_epi32(pixels, green_offset), green_mask_sse);
+            __m128i b_comp = _mm_and_si128(_mm_srli_epi32(pixels, blue_offset), blue_mask_sse);
+
+            // Shift to default positions
+            r_comp = _mm_slli_epi32(r_comp, default_red_offset);
+            g_comp = _mm_slli_epi32(g_comp, default_green_offset);
+            b_comp = _mm_slli_epi32(b_comp, default_blue_offset);
+
+            // Combine and add alpha
+            __m128i result = _mm_or_si128(r_comp, g_comp);
+            result = _mm_or_si128(result, b_comp);
+            result = _mm_or_si128(result, alpha_val_sse);
+
+            _mm_storeu_si128((__m128i *)(data + x), result);
+        }
+        // Handle remaining pixels (if width is not a multiple of 4)
+        for (; x < im->width; x++) {
+            gint r = (p32[x] >> red_offset) & 0xff;
+            gint g = (p32[x] >> green_offset) & 0xff;
+            gint b = (p32[x] >> blue_offset) & 0xff;
+            data[x] = (r << default_red_offset)
+                    + (g << default_green_offset)
+                    + (b << default_blue_offset)
+                    + (0xff << default_alpha_offset);
+        }
+        data += im->width;
+        p32 += im->bytes_per_line / 4;
+    }
+}
+
+/* SSE2 optimized version of RrIncreaseDepth for 16-bit images */
+static void RrIncreaseDepth_SSE2_16(const RrInstance *inst, RrPixel32 *data, XImage *im)
+{
+    gint y;
+    RrPixel16 *p16 = (RrPixel16 *)im->data;
+
+    const __m128i red_mask_sse = _mm_set1_epi32(RrRedMask(inst));
+    const __m128i green_mask_sse = _mm_set1_epi32(RrGreenMask(inst));
+    const __m128i blue_mask_sse = _mm_set1_epi32(RrBlueMask(inst));
+
+    const int red_offset = RrRedOffset(inst);
+    const int green_offset = RrGreenOffset(inst);
+    const int blue_offset = RrBlueOffset(inst);
+    const int red_shift = RrRedShift(inst);
+    const int green_shift = RrGreenShift(inst);
+    const int blue_shift = RrBlueShift(inst);
+
+    const int default_red_offset = RrDefaultRedOffset;
+    const int default_green_offset = RrDefaultGreenOffset;
+    const int default_blue_offset = RrDefaultBlueOffset;
+    const int default_alpha_offset = RrDefaultAlphaOffset;
+
+    const __m128i alpha_val_sse = _mm_set1_epi32(0xff << default_alpha_offset);
+
+    for (y = 0; y < im->height; y++) {
+        for (gint x = 0; x < im->width; x++) {
+            gint r = (p16[x] & RrRedMask(inst)) >> red_offset << red_shift;
+            gint g = (p16[x] & RrGreenMask(inst)) >> green_offset << green_shift;
+            gint b = (p16[x] & RrBlueMask(inst)) >> blue_offset << blue_shift;
+            data[x] = (r << default_red_offset) + (g << default_green_offset) + (b << default_blue_offset) + (0xff << default_alpha_offset);
+        }
+        data += im->width;
+        p16 += im->bytes_per_line / 2;
+    }
+}
+#endif
 
 void RrReduceDepth(const RrInstance *inst, RrPixel32 *data, XImage *im)
 {
@@ -281,6 +381,14 @@ void RrIncreaseDepth(const RrInstance *inst, RrPixel32 *data, XImage *im)
         swap_byte_order(im);
 
     switch (im->bits_per_pixel) {
+#ifdef __SSE2__
+    case 32:
+        RrIncreaseDepth_SSE2_32(inst, data, im);
+        break;
+    case 16:
+        RrIncreaseDepth_SSE2_16(inst, data, im);
+        break;
+#else
     case 32:
         for (y = 0; y < im->height; y++) {
             for (x = 0; x < im->width; x++) {
@@ -317,6 +425,8 @@ void RrIncreaseDepth(const RrInstance *inst, RrPixel32 *data, XImage *im)
             p16 += im->bytes_per_line/2;
         }
         break;
+#endif
+
     case 8:
         g_error("This image bit depth (%i) is currently unhandled", 8);
         break;
