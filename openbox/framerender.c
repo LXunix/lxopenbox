@@ -33,10 +33,6 @@ static void framerender_desk(ObFrame *self, RrAppearance *a);
 static void framerender_shade(ObFrame *self, RrAppearance *a);
 static void framerender_close(ObFrame *self, RrAppearance *a);
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#endif
-
 void framerender_frame(ObFrame *self)
 {
     if (frame_iconify_animating(self))
@@ -49,36 +45,29 @@ void framerender_frame(ObFrame *self)
 
     {
         gulong px;
-        Window windows[16];
-        int num_windows = 0;
 
         px = (self->focused ?
               RrColorPixel(ob_rr_theme->cb_focused_color) :
               RrColorPixel(ob_rr_theme->cb_unfocused_color));
 
-        windows[num_windows++] = self->backback;
-        windows[num_windows++] = self->innerleft;
-        windows[num_windows++] = self->innertop;
-        windows[num_windows++] = self->innerright;
-        windows[num_windows++] = self->innerbottom;
-        windows[num_windows++] = self->innerbll;
-        windows[num_windows++] = self->innerbrr;
-        windows[num_windows++] = self->innerblb;
-        windows[num_windows++] = self->innerbrb;
-
-#ifdef __SSE2__
-        __m128i color_pixel = _mm_set1_epi32(px);
-        for (int i = 0; i < num_windows; ++i) {
-            XSetWindowBackground(obt_display, windows[i], _mm_cvtsi128_si32(color_pixel));
-            XClearWindow(obt_display, windows[i]);
-        }
-#else
-        for (int i = 0; i < num_windows; ++i) {
-            XSetWindowBackground(obt_display, windows[i], px);
-            XClearWindow(obt_display, windows[i]);
-        }
-#endif
-        num_windows = 0; // Reset for the next batch
+        XSetWindowBackground(obt_display, self->backback, px);
+        XClearWindow(obt_display, self->backback);
+        XSetWindowBackground(obt_display, self->innerleft, px);
+        XClearWindow(obt_display, self->innerleft);
+        XSetWindowBackground(obt_display, self->innertop, px);
+        XClearWindow(obt_display, self->innertop);
+        XSetWindowBackground(obt_display, self->innerright, px);
+        XClearWindow(obt_display, self->innerright);
+        XSetWindowBackground(obt_display, self->innerbottom, px);
+        XClearWindow(obt_display, self->innerbottom);
+        XSetWindowBackground(obt_display, self->innerbll, px);
+        XClearWindow(obt_display, self->innerbll);
+        XSetWindowBackground(obt_display, self->innerbrr, px);
+        XClearWindow(obt_display, self->innerbrr);
+        XSetWindowBackground(obt_display, self->innerblb, px);
+        XClearWindow(obt_display, self->innerblb);
+        XSetWindowBackground(obt_display, self->innerbrb, px);
+        XClearWindow(obt_display, self->innerbrb);
 
         px = RrColorPixel(self->focused ?
             (self->client->undecorated ?
@@ -88,37 +77,44 @@ void framerender_frame(ObFrame *self)
              ob_rr_theme->frame_undecorated_unfocused_border_color :
              ob_rr_theme->frame_unfocused_border_color));
 
-        windows[num_windows++] = self->left;
-        windows[num_windows++] = self->right;
-        windows[num_windows++] = self->titleleft;
-        windows[num_windows++] = self->titletop;
-        windows[num_windows++] = self->titletopleft;
-        windows[num_windows++] = self->titletopright;
-        windows[num_windows++] = self->titleright;
-        windows[num_windows++] = self->handleleft;
-        windows[num_windows++] = self->handletop;
-        windows[num_windows++] = self->handleright;
-        windows[num_windows++] = self->handlebottom;
-        windows[num_windows++] = self->lgripleft;
-        windows[num_windows++] = self->lgriptop;
-        windows[num_windows++] = self->lgripbottom;
-        windows[num_windows++] = self->rgripright;
-        windows[num_windows++] = self->rgriptop;
-        windows[num_windows++] = self->rgripbottom;
+        XSetWindowBackground(obt_display, self->left, px);
+        XClearWindow(obt_display, self->left);
+        XSetWindowBackground(obt_display, self->right, px);
+        XClearWindow(obt_display, self->right);
 
-#ifdef __SSE2__
-        color_pixel = _mm_set1_epi32(px);
-        for (int i = 0; i < num_windows; ++i) {
-            XSetWindowBackground(obt_display, windows[i], _mm_cvtsi128_si32(color_pixel));
-            XClearWindow(obt_display, windows[i]);
-        }
-#else
-        for (int i = 0; i < num_windows; ++i) {
-            XSetWindowBackground(obt_display, windows[i], px);
-            XClearWindow(obt_display, windows[i]);
-        }
-#endif
-        num_windows = 0; // Reset for the next batch
+        XSetWindowBackground(obt_display, self->titleleft, px);
+        XClearWindow(obt_display, self->titleleft);
+        XSetWindowBackground(obt_display, self->titletop, px);
+        XClearWindow(obt_display, self->titletop);
+        XSetWindowBackground(obt_display, self->titletopleft, px);
+        XClearWindow(obt_display, self->titletopleft);
+        XSetWindowBackground(obt_display, self->titletopright, px);
+        XClearWindow(obt_display, self->titletopright);
+        XSetWindowBackground(obt_display, self->titleright, px);
+        XClearWindow(obt_display, self->titleright);
+
+        XSetWindowBackground(obt_display, self->handleleft, px);
+        XClearWindow(obt_display, self->handleleft);
+        XSetWindowBackground(obt_display, self->handletop, px);
+        XClearWindow(obt_display, self->handletop);
+        XSetWindowBackground(obt_display, self->handleright, px);
+        XClearWindow(obt_display, self->handleright);
+        XSetWindowBackground(obt_display, self->handlebottom, px);
+        XClearWindow(obt_display, self->handlebottom);
+
+        XSetWindowBackground(obt_display, self->lgripleft, px);
+        XClearWindow(obt_display, self->lgripleft);
+        XSetWindowBackground(obt_display, self->lgriptop, px);
+        XClearWindow(obt_display, self->lgriptop);
+        XSetWindowBackground(obt_display, self->lgripbottom, px);
+        XClearWindow(obt_display, self->lgripbottom);
+
+        XSetWindowBackground(obt_display, self->rgripright, px);
+        XClearWindow(obt_display, self->rgripright);
+        XSetWindowBackground(obt_display, self->rgriptop, px);
+        XClearWindow(obt_display, self->rgriptop);
+        XSetWindowBackground(obt_display, self->rgripbottom, px);
+        XClearWindow(obt_display, self->rgripbottom);
 
         /* don't use the separator color for shaded windows */
         if (!self->client->shaded)
@@ -126,17 +122,8 @@ void framerender_frame(ObFrame *self)
                   RrColorPixel(ob_rr_theme->title_separator_focused_color) :
                   RrColorPixel(ob_rr_theme->title_separator_unfocused_color));
 
-#ifdef __SSE2__
-        color_pixel = _mm_set1_epi32(px);
-        XSetWindowBackground(obt_display, self->titlebottom, _mm_cvtsi128_si32(color_pixel));
-        XClearWindow(obt_display, self->titlebottom);
-#else
         XSetWindowBackground(obt_display, self->titlebottom, px);
         XClearWindow(obt_display, self->titlebottom);
-#endif
-
-
-
     }
 
     if (self->decorations & OB_FRAME_DECOR_TITLEBAR) {
