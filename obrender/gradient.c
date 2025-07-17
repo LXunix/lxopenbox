@@ -21,6 +21,8 @@
 #include "render.h"
 #include "gradient.h"
 #include "color.h"
+
+#include <immintrin.h>
 #include <glib.h>
 #include <string.h>
 
@@ -38,7 +40,11 @@ static void gradient_pyramid(RrSurface *sf, gint inw, gint inh);
 
 void RrRender(RrAppearance *a, gint w, gint h)
 {
-    RrPixel32 *data = a->surface.pixel_data;
+    RrPixel32 *data = a->surface.pixel_data; // Pointer to the pixel data
+#ifdef __SSE2__
+    __m128i *data_sse = (__m128i *)data; // SSE2 pointer for 128-bit operations
+#endif
+
     RrPixel32 current;
     guint r,g,b;
     register gint off, x;
@@ -84,12 +90,34 @@ void RrRender(RrAppearance *a, gint w, gint h)
         g = a->surface.interlace_color->g;
         b = a->surface.interlace_color->b;
         current = (r << RrDefaultRedOffset)
-            + (g << RrDefaultGreenOffset)
-            + (b << RrDefaultBlueOffset);
+                + (g << RrDefaultGreenOffset)
+                + (b << RrDefaultBlueOffset);
+
+#ifdef __SSE2__
+        // Load the current pixel into an SSE register and duplicate it
+        __m128i sse_current = _mm_set1_epi32(current);
         p = data;
-        for (i = 0; i < h; i += 2, p += w)
-            for (x = 0; x < w; ++x, ++p)
-                *p = current;
+        for (i = 0; i < h; i += 2) { // Iterate over every other row
+            // Process row using SSE2 for faster writes
+            for (x = 0; x < w; x += 4) { // Process 4 pixels at a time
+                if (w - x >= 4) { // If there are at least 4 pixels left
+                    _mm_storeu_si128((__m128i *)(p + x), sse_current);
+                } else { // Handle remaining pixels (less than 4)
+                    for (int k = 0; k < (w - x); ++k) {
+                        *(p + x + k) = current;
+                    }
+                }
+            }
+            p += 2 * w; // Move to the start of the next interlace row
+        }
+#else
+        p = data; // Reset pointer for non-SSE2
+        for (i = 0; i < h; i += 2, p += w) { // Iterate over every other row
+            for (x = 0; x < w; ++x, ++p) { // Iterate through pixels in the row
+                *p = current; // Set pixel to interlace color
+            }
+        }
+#endif
     }
 
     if (a->surface.relief == RR_RELIEF_FLAT && a->surface.border) {
