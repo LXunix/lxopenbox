@@ -298,6 +298,32 @@ AC_COMPILE_IFELSE(
 )
 CFLAGS="$SAVE_CFLAGS"
 
+# Check for AVX
+AC_MSG_CHECKING([for AVX support])
+SAVE_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -mavx"
+AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <immintrin.h>]], [[__m256d a = _mm256_setzero_pd();]])],
+    [AC_DEFINE([HAVE_AVX], [1], [Define to 1 if AVX is available.])
+     SSE_CFLAGS="$SSE_CFLAGS -mavx"
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$SAVE_CFLAGS"
+
+# Check for AVX2
+AC_MSG_CHECKING([for AVX2 support])
+SAVE_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -mavx2"
+AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <immintrin.h>]], [[__m256i a = _mm256_setzero_si256();]])],
+    [AC_DEFINE([HAVE_AVX2], [1], [Define to 1 if AVX2 is available.])
+     SSE_CFLAGS="$SSE_CFLAGS -mavx2"
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$SAVE_CFLAGS"
+
 # Add collected SSE flags to CFLAGS if any were found
 AS_IF([test -n "$SSE_CFLAGS"], [
     CFLAGS="$CFLAGS $SSE_CFLAGS"
