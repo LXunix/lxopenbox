@@ -184,7 +184,7 @@ void moveresize_start(ObClient *c, gint x, gint y, guint b, guint32 cnr)
     gint up = 1;
     gint left = 1;
 
-    if (moveresize_in_progress || !c->frame->visible ||
+    if (moveresize_in_progress || !c->frame->params0.visible ||
         !(mv ?
           (c->functions & OB_CLIENT_FUNC_MOVE) :
           (c->functions & OB_CLIENT_FUNC_RESIZE)))

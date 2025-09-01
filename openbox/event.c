@@ -908,30 +908,30 @@ static gchar *context_to_button(ObFrame *f, ObFrameContext con, gboolean press)
     if (press) {
         switch (con) {
         case OB_FRAME_CONTEXT_MAXIMIZE:
-            return &f->max_press;
+            return f->params1.max_press;
         case OB_FRAME_CONTEXT_CLOSE:
-            return &f->close_press;
+            return GET_ADDR_BITFIELD(1, CLOSE_PRESS);
         case OB_FRAME_CONTEXT_ICONIFY:
-            return &f->iconify_press;
+            return GET_ADDR_BITFIELD(1, ICONIFY_PRESS);
         case OB_FRAME_CONTEXT_ALLDESKTOPS:
-            return &f->desk_press;
+            return GET_ADDR_BITFIELD(1, DESK_PRESS);
         case OB_FRAME_CONTEXT_SHADE:
-            return &f->shade_press;
+            return GET_ADDR_BITFIELD(1, SHADE_PRESS);
         default:
             return NULL;
         }
     } else {
         switch (con) {
         case OB_FRAME_CONTEXT_MAXIMIZE:
-            return &f->max_hover;
+            return GET_ADDR_BITFIELD(2, MAX_HOVER);
         case OB_FRAME_CONTEXT_CLOSE:
-            return &f->close_hover;
+            return GET_ADDR_BITFIELD(2, CLOSE_HOVER);
         case OB_FRAME_CONTEXT_ICONIFY:
-            return &f->iconify_hover;
+            return GET_ADDR_BITFIELD(2, ICONIFY_HOVER);
         case OB_FRAME_CONTEXT_ALLDESKTOPS:
-            return &f->desk_hover;
+            return GET_ADDR_BITFIELD(2, DESK_HOVER);
         case OB_FRAME_CONTEXT_SHADE:
-            return &f->shade_hover;
+            return GET_ADDR_BITFIELD(2, SHADE_HOVER);
         default:
             return NULL;
         }
@@ -1039,15 +1039,15 @@ static void event_handle_client(ObClient *client, XEvent *e)
         case OB_FRAME_CONTEXT_TLCORNER:
         case OB_FRAME_CONTEXT_TRCORNER:
             /* we've left the button area inside the titlebar */
-            if (client->frame->max_hover || client->frame->desk_hover ||
-                client->frame->shade_hover || client->frame->iconify_hover ||
-                client->frame->close_hover)
+            if (client->frame->params2.max_hover || client->frame->params2.desk_hover ||
+                client->frame->params2.shade_hover || client->frame->params2.iconify_hover ||
+                client->frame->params2.close_hover)
             {
-                client->frame->max_hover =
-                    client->frame->desk_hover =
-                    client->frame->shade_hover =
-                    client->frame->iconify_hover =
-                    client->frame->close_hover = FALSE;
+                client->frame->params2.max_hover =
+                    client->frame->params2.desk_hover =
+                    client->frame->params2.shade_hover =
+                    client->frame->params2.iconify_hover =
+                    client->frame->params2.close_hover = FALSE;
                 frame_adjust_state(client->frame);
             }
             break;
@@ -1068,17 +1068,17 @@ static void event_handle_client(ObClient *client, XEvent *e)
         case OB_FRAME_CONTEXT_TLCORNER:
         case OB_FRAME_CONTEXT_TRCORNER:
             /* we've left the button area inside the titlebar */
-            client->frame->max_hover =
-                client->frame->desk_hover =
-                client->frame->shade_hover =
-                client->frame->iconify_hover =
-                client->frame->close_hover = FALSE;
+            client->frame->params2.max_hover =
+                client->frame->params2.desk_hover =
+                client->frame->params2.shade_hover =
+                client->frame->params2.iconify_hover =
+                client->frame->params2.close_hover = FALSE;
             if (e->xcrossing.mode == NotifyGrab) {
-                client->frame->max_press =
-                    client->frame->desk_press =
-                    client->frame->shade_press =
-                    client->frame->iconify_press =
-                    client->frame->close_press = FALSE;
+                client->frame->params1.max_press =
+                    client->frame->params1.desk_press =
+                    client->frame->params1.shade_press =
+                    client->frame->params1.iconify_press =
+                    client->frame->params1.close_press = FALSE;
             }
             break;
         case OB_FRAME_CONTEXT_FRAME:
@@ -1193,7 +1193,7 @@ static void event_handle_client(ObClient *client, XEvent *e)
         ob_debug("ConfigureRequest for \"%s\" desktop %d wmstate %d "
                  "visible %d",
                  client->title,
-                 screen_desktop, client->wmstate, client->frame->visible);
+                 screen_desktop, client->wmstate, client->frame->params0.visible);
         ob_debug("                     x %d y %d w %d h %d b %d",
                  x, y, w, h, client->border_width);
 

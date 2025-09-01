@@ -3237,8 +3237,8 @@ void client_configure(ObClient *self, gshort x, gshort y, gint w, gint h,
     gboolean moved = FALSE, resized = FALSE, rootmoved = FALSE;
     gboolean fmoved, fresized;
     guint fdecor = self->frame->decorations;
-    gboolean fhorz = self->frame->max_horz;
-    gboolean fvert = self->frame->max_vert;
+    gboolean fhorz = self->frame->params1.max_horz;
+    gboolean fvert = self->frame->params1.max_vert;
     gint logicalw, logicalh;
 
     /* find the new x, y, width, and height (and logical size) */
@@ -4077,7 +4077,7 @@ gboolean client_can_focus(ObClient *self)
     /* choose the correct target */
     self = client_focus_target(self);
 
-    if (!self->frame->visible)
+    if (!self->frame->params0.visible)
         return FALSE;
 
     if (!(self->can_focus || self->focus_notify))
@@ -4159,7 +4159,7 @@ static void client_present(ObClient *self, gboolean here, gboolean raise,
             client_set_desktop(self, screen_desktop, FALSE, TRUE);
         else
             screen_set_desktop(self->desktop, FALSE);
-    } else if (!self->frame->visible)
+    } else if (!self->frame->params0.visible)
         /* if its not visible for other reasons, then don't mess
            with it */
         return;
@@ -4748,7 +4748,7 @@ ObClient* client_under_pointer(void)
         for (it = stacking_list; it; it = g_list_next(it)) {
             if (WINDOW_IS_CLIENT(it->data)) {
                 ObClient *c = WINDOW_AS_CLIENT(it->data);
-                if (c->frame->visible &&
+                if (c->frame->params0.visible &&
                     /* check the desktop, this is done during desktop
                        switching and windows are shown/hidden status is not
                        reliable */

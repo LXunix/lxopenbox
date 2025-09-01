@@ -80,6 +80,39 @@ typedef enum {
     OB_FRAME_DECOR_CLOSE       = 1 << 9  /*!< Display a close button */
 } ObFrameDecorations;
 
+enum ObFrameParams0 {
+    VISIBLE,
+    ICON_ON,
+    LABEL_ON,
+    ICONIFY_ON,
+    DESK_ON,
+    SHADE_ON,
+    MAX_ON,
+    CLOSE_ON
+};
+
+enum ObFrameParams1 {
+    MAX_HORZ,
+    MAX_VERT,
+    SHADED,
+    MAX_PRESS,
+    CLOSE_PRESS,
+    DESK_PRESS,
+    SHADE_PRESS,
+    ICONIFY_PRESS
+};
+
+enum ObFrameParams2 {
+    MAX_HOVER,
+    CLOSE_HOVER,
+    DESK_HOVER,
+    SHADE_HOVER,
+    ICONIFY_HOVER,
+    FOCUSED,
+    NEED_RENDER,
+    FLASHING
+};
+
 struct _ObFrame
 {
     struct _ObClient *client;
@@ -144,15 +177,6 @@ struct _ObFrame
     Strut     size;    /* the size of the frame */
     Strut     oldsize; /* the size of the frame last told to the client */
     Rect      area;
-    gchar  visible;
-
-    gchar      icon_on;    /* if the window icon button is on */
-    gchar      label_on;   /* if the window title is on */
-    gchar      iconify_on; /* if the window iconify button is on */
-    gchar      desk_on;    /* if the window all-desktops button is on */
-    gchar      shade_on;   /* if the window shade button is on */
-    gchar      max_on;     /* if the window maximize button is on */
-    gchar      close_on;   /* if the window close button is on */
 
     gushort      width;         /* width of the titlebar and handle */
     gushort      label_width;   /* width of the label in the titlebar */
@@ -168,29 +192,47 @@ struct _ObFrame
     gushort      cbwidth_t;     /* client border width */
     gushort      cbwidth_r;     /* client border width */
     gushort      cbwidth_b;     /* client border width */
-    gchar  max_horz;      /* when maxed some decorations are hidden */
-    gchar  max_vert;      /* when maxed some decorations are hidden */
-    gchar  shaded;        /* decorations adjust when shaded */
 
     /* the leftmost and rightmost elements in the titlebar */
     ObFrameContext leftmost : 5;  // 5 bit max value 0x00000
     ObFrameContext rightmost : 5; // 5 bit max value 0x00000
 
-    gchar  max_press;
-    gchar  close_press;
-    gchar  desk_press;
-    gchar  shade_press;
-    gchar  iconify_press;
-    gchar  max_hover;
-    gchar  close_hover;
-    gchar  desk_hover;
-    gchar  shade_hover;
-    gchar  iconify_hover;
+    struct {
+      gchar      visible : 1;
 
-    gchar  focused;
-    gchar  need_render;
+      gchar      icon_on : 1;    /* if the window icon button is on */
+      gchar      label_on : 1;   /* if the window title is on */
+      gchar      iconify_on : 1; /* if the window iconify button is on */
+      gchar      desk_on : 1;    /* if the window all-desktops button is on */
+      gchar      shade_on : 1;   /* if the window shade button is on */
+      gchar      max_on : 1;     /* if the window maximize button is on */
+      gchar      close_on : 1;   /* if the window close button is on */
+    } params0;
 
-    gchar  flashing;
+    struct {
+      gchar  max_horz : 1;      /* when maxed some decorations are hidden */
+      gchar  max_vert : 1;      /* when maxed some decorations are hidden */
+      gchar  shaded : 1;        /* decorations adjust when shaded */
+
+      gchar  max_press : 1;
+      gchar  close_press : 1;
+      gchar  desk_press : 1;
+      gchar  shade_press : 1;
+      gchar  iconify_press : 1;
+    } params1;
+
+    struct {
+      gchar  max_hover : 1;
+      gchar  close_hover : 1;
+      gchar  desk_hover : 1;
+      gchar  shade_hover : 1;
+      gchar  iconify_hover : 1;
+
+      gchar  focused : 1;
+      gchar  need_render : 1;
+
+      gchar  flashing : 1;
+    } params2;
     gchar  flash_on;
     guint     flash_timer;
     GTimeVal  flash_end;
